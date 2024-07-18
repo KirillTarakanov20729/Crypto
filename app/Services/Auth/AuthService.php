@@ -2,8 +2,10 @@
 
 namespace App\Services\Auth;
 
+use App\DTO\Auth\CheckAuthDTO;
 use App\DTO\Auth\LoginDTO;
 use App\DTO\Auth\RegisterDTO;
+use App\Exceptions\Auth\CheckAuthException;
 use App\Exceptions\Auth\LoginTelegramIdException;
 use App\Exceptions\Auth\StoreUserException;
 use App\Models\User;
@@ -47,5 +49,15 @@ class AuthService
         } else {
             return throw new LoginTelegramIdException('Неверный Telegram ID');
         }
+    }
+
+    public function check_auth(CheckAuthDTO $data): bool
+    {
+        /** @var User $user */
+        $user = User::query()->where('telegram_id', $data->telegram_id)->first();
+        if (!$user) {
+            throw new CheckAuthException('User not found');
+        }
+        return $user->is_logged_in;
     }
 }

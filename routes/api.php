@@ -18,4 +18,6 @@ Route::prefix('auth')->group(function () {
     Route::post('register', [App\Http\Controllers\Auth\AuthController::class, 'register']);
 
     Route::post('login', [App\Http\Controllers\Auth\AuthController::class, 'login']);
+
+    Route::post('check_auth', [App\Http\Controllers\Auth\AuthController::class, 'check_auth']);
 });

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\DTO\Auth\CheckAuthDTO;
 use App\DTO\Auth\LoginDTO;
 use App\DTO\Auth\RegisterDTO;
+use App\Exceptions\Auth\CheckAuthException;
 use App\Exceptions\Auth\LoginTelegramIdException;
 use App\Exceptions\Auth\StoreUserException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\CheckAuthRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Services\Auth\AuthService;
@@ -28,12 +31,12 @@ class AuthController extends Controller
             $this->service->store_user($data);
         } catch (StoreUserException $e) {
             return response()->json([
-                'message' => 'Произошла ошибка'
+                'message' => 'An error has occurred'
             ], 400);
         }
 
         return response()->json([
-            'message' => 'Вы успешно зарегистрировались'
+            'message' => 'You have successfully registered'
         ], 201);
     }
 
@@ -47,17 +50,38 @@ class AuthController extends Controller
                 $this->service->check_telegram_id($data);
             } catch (LoginTelegramIdException $e) {
                 return response()->json([
-                    'message' => 'Кошелек привязан к другому аккаунту'
+                    'message' => 'The wallet is linked to another telegram id'
                 ], 400);
             }
 
             return response()->json([
-                'message' => 'Вы успешно вошли в систему'
+                'message' => 'You have successfully logged in'
             ], 200);
         } else {
             return response()->json([
-                'message' => 'Неверный логин или пароль'
+                'message' => 'Wrong email or password'
             ], 401);
+        }
+    }
+
+    public function check_auth(CheckAuthRequest $request): JsonResponse
+    {
+        $data = new CheckAuthDTO($request->validated());
+
+        try {
+            if ($this->service->check_auth($data)) {
+                return response()->json([
+                    'message' => 'You are logged in'
+                ], 200);
+            } else {
+                return response()->json([
+                    'message' => 'You are not logged in'
+                ], 401);
+            }
+        } catch (CheckAuthException $e) {
+            return response()->json([
+                'message' => 'Not found'
+            ], 404);
         }
     }
 }
