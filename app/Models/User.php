@@ -12,6 +12,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $name
  * @property string $email
  * @property string $password
+ * @property string $telegram_id
+ * @property bool $is_logged_in
  */
 class User extends Authenticatable
 {
@@ -21,6 +23,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'telegram_id',
+        'is_logged_in',
     ];
 
     protected $hidden = [
