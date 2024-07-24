@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\API_Telegram\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class RegisterRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     public function authorize(): bool
     {
         return true;
     }
+
     public function rules(): array
     {
         return [
-            'name'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email'    => ['required', 'string', 'email', 'max:255'],
             'password' => ['required', 'string', 'min:8'],
-            'telegram_id' => ['required', 'string', 'max:255', 'unique:users'],
+            'telegram_id' => ['required', 'string', 'max:255'],
         ];
     }
 

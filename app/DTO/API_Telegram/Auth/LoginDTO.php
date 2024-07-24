@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTO\Auth;
+namespace App\DTO\API_Telegram\Auth;
 
 use Spatie\DataTransferObject\DataTransferObject;
 

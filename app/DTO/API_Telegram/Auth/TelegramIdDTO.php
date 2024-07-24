@@ -1,10 +1,10 @@
 <?php
 
-namespace App\DTO\Auth;
+namespace App\DTO\API_Telegram\Auth;
 
 use Spatie\DataTransferObject\DataTransferObject;
 
-class CheckAuthDTO extends DataTransferObject
+class TelegramIdDTO extends DataTransferObject
 {
     public string $telegram_id;
 }
