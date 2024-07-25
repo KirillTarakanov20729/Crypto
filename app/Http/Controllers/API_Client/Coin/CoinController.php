@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\API_Client\Coin;
 
+use App\DTO\API_Client\Coins\IndexDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API_Client\Coins\IndexRequest;
+use App\Http\Resources\Coin\CoinResource;
 use App\Services\API_Client\Coin\CoinService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class CoinController extends Controller
 {
@@ -15,10 +19,10 @@ class CoinController extends Controller
         $this->service = $service;
     }
 
-    public function index(): JsonResponse
+    public function index(IndexRequest $request): AnonymousResourceCollection
     {
-        $coins = $this->service->index();
+        $data = new IndexDTO($request->validated());
 
-        return response()->json($coins, 200);
+        return CoinResource::collection($this->service->index($data));
     }
 }

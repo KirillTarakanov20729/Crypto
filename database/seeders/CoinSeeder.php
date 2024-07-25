@@ -14,6 +14,10 @@ class CoinSeeder extends Seeder
         $this->create_BTC();
         $this->create_ETH();
         $this->create_SOL();
+        $this->create_BNB();
+        $this->create_USDT();
+        $this->create_USDC();
+        $this->create_XRP();
     }
 
     private function create_BTC(): void
@@ -40,6 +44,42 @@ class CoinSeeder extends Seeder
         $coin = new Coin();
         $coin->name = 'Solana';
         $coin->symbol = 'SOL';
+        $coin->price = 0;
+        $coin->save();
+    }
+
+    private function create_BNB(): void
+    {
+        $coin = new Coin();
+        $coin->name = 'BNB';
+        $coin->symbol = 'BNB';
+        $coin->price = 0;
+        $coin->save();
+    }
+
+    private function create_USDT(): void
+    {
+        $coin = new Coin();
+        $coin->name = 'Tether';
+        $coin->symbol = 'USDT';
+        $coin->price = 0;
+        $coin->save();
+    }
+
+    private function create_USDC(): void
+    {
+        $coin = new Coin();
+        $coin->name = 'USD Coin';
+        $coin->symbol = 'USDC';
+        $coin->price = 0;
+        $coin->save();
+    }
+
+    private function create_XRP(): void
+    {
+        $coin = new Coin();
+        $coin->name = 'XRP';
+        $coin->symbol = 'XRP';
         $coin->price = 0;
         $coin->save();
     }
