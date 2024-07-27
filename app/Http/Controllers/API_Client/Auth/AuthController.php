@@ -5,17 +5,14 @@ namespace App\Http\Controllers\API_Client\Auth;
 use App\DTO\API_Client\Auth\LoginDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API_Client\Auth\LoginRequest;
-use App\Services\API_Client\Auth\AuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    private AuthService $service;
-    public function __construct(AuthService $service)
+    public function __construct()
     {
-        $this->service = $service;
-        $this->middleware('auth:api', ['except' => ['login', 'refresh']]);
+        $this->middleware('jwt.auth', ['except' => ['login', 'refresh']]);
     }
 
     public function login(LoginRequest $request): JsonResponse

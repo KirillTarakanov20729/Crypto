@@ -5,16 +5,19 @@ namespace App\Http\Requests\API_Client\Coins;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class IndexRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     public function authorize(): bool
     {
         return true;
     }
+
     public function rules(): array
     {
         return [
-            'page' => ['required', 'integer'],
+            'name' => ['required', 'string', 'max:255'],
+            'symbol' => ['required', 'string', 'max:255', 'unique:coins,symbol'],
+            'price' => ['required', 'numeric', 'max:255'],
         ];
     }
 

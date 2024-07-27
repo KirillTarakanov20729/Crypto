@@ -5,7 +5,7 @@ namespace App\Http\Requests\API_Client\Coins;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class IndexRequest extends FormRequest
+class DeleteRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,10 +14,9 @@ class IndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'page' => ['required', 'integer'],
+            'id' => ['required', 'integer'],
         ];
     }
-
     protected function failedValidation($validator)
     {
         $errors = $validator->errors();

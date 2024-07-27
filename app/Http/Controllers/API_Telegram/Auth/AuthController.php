@@ -5,10 +5,13 @@ namespace App\Http\Controllers\API_Telegram\Auth;
 use App\DTO\API_Telegram\Auth\LoginDTO;
 use App\DTO\API_Telegram\Auth\RegisterDTO;
 use App\DTO\API_Telegram\Auth\TelegramIdDTO;
-use App\Exceptions\Auth\CheckAuthException;
-use App\Exceptions\Auth\LoginTelegramIdException;
-use App\Exceptions\Auth\LogoutException;
-use App\Exceptions\Auth\StoreUserException;
+use App\Exceptions\Auth\API_Telegram\ChangeLoginStatusException;
+use App\Exceptions\Auth\API_Telegram\CheckAuthException;
+use App\Exceptions\Auth\API_Telegram\FindUserException;
+use App\Exceptions\Auth\API_Telegram\LoginException;
+use App\Exceptions\Auth\API_Telegram\LoginTelegramIdException;
+use App\Exceptions\Auth\API_Telegram\LogoutException;
+use App\Exceptions\Auth\API_Telegram\StoreUserException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API_Telegram\Auth\CheckAuthRequest;
 use App\Http\Requests\API_Telegram\Auth\LoginRequest;
@@ -28,12 +31,11 @@ class AuthController extends Controller
     public function register(RegisterRequest $request): JsonResponse
     {
         $data = new RegisterDTO($request->validated());
+
         try {
             $this->service->store_user($data);
         } catch (StoreUserException $e) {
-            return response()->json([
-                'message' => 'An error has occurred'
-            ], 400);
+            return response()->json(['error' => $e->getMessage()], $e->getCode());
         }
 
         return response()->json([
@@ -45,33 +47,27 @@ class AuthController extends Controller
     {
         $data = new LoginDTO($request->validated());
 
-        if ($this->service->login($data)) {
-            try {
-                $this->service->check_telegram_id($data);
-            } catch (LoginTelegramIdException $e) {
-                return response()->json([
-                    'message' => 'The wallet is linked to another telegram id'
-                ], 400);
-            }
-
-            $telegram_data = new TelegramIdDTO(['telegram_id' => $data->telegram_id]);
-
-            try {
-                $this->service->change_login_status($telegram_data);
-            } catch (LoginTelegramIdException $e) {
-                return response()->json([
-                    'message' => 'An error has occurred'
-                ], 400);
-            }
-
-            return response()->json([
-                'message' => 'You have successfully logged in'
-            ], 200);
-        } else {
-            return response()->json([
-                'message' => 'Wrong email or password'
-            ], 401);
+        try {
+            $this->service->check_credentials($data);
+        } catch (LoginException $e) {
+            return response()->json(['error' => $e->getMessage()], $e->getCode());
         }
+
+       try {
+           $this->service->check_telegram_id($data);
+       } catch (LoginTelegramIdException|FindUserException $e) {
+           return response()->json(['error' => $e->getMessage()], $e->getCode());
+       }
+
+       try {
+           $this->service->change_login_status($data);
+       } catch (ChangeLoginStatusException|FindUserException $e) {
+           return response()->json(['error' => $e->getMessage()], $e->getCode());
+       }
+
+       return response()->json([
+           'message' => 'You have successfully logged in'
+       ], 200);
     }
 
     public function check_auth(CheckAuthRequest $request): JsonResponse
@@ -79,31 +75,24 @@ class AuthController extends Controller
         $data = new TelegramIdDTO($request->validated());
 
         try {
-            if ($this->service->check_auth($data)) {
-                return response()->json([
-                    'message' => 'You are logged in'
-                ], 200);
-            } else {
-                return response()->json([
-                    'message' => 'You are not logged in'
-                ], 401);
-            }
-        } catch (CheckAuthException $e) {
-            return response()->json([
-                'message' => 'Not found'
-            ], 404);
+            $this->service->check_auth($data);
+        } catch (CheckAuthException|FindUserException $e) {
+            return response()->json(['error' => $e->getMessage()], $e->getCode());
         }
+
+        return response()->json([
+            'message' => 'User is logged in'
+        ], 200);
     }
 
     public function logout(LogoutRequest $request): JsonResponse
     {
         $data = new TelegramIdDTO($request->validated());
+
         try {
             $this->service->logout($data);
-        } catch (LogoutException $e) {
-            return response()->json([
-                'message' => 'Error'
-            ], 404);
+        } catch (LogoutException|FindUserException $e) {
+            return response()->json(['error' => $e->getMessage()], $e->getCode());
         }
 
         return response()->json([
