@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exceptions\Auth\API_Telegram;
+namespace App\Exceptions\API_Telegram\Auth;
 
 use Exception;
 

@@ -15,9 +15,9 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'symbol' => ['required', 'string', 'max:255', 'unique:coins,symbol'],
-            'price' => ['required', 'numeric', 'max:255'],
+            'name' => ['required', 'string', 'max:32'],
+            'symbol' => ['required', 'string', 'min:2' ,'max:5', 'unique:coins,symbol'],
+            'price' => ['required', 'numeric', 'min:0.01', 'max:99999.99'],
         ];
     }
 

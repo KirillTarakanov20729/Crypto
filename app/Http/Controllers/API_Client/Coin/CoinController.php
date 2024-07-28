@@ -2,28 +2,29 @@
 
 namespace App\Http\Controllers\API_Client\Coin;
 
+use App\Contracts\API_Client\Coin\CoinContract;
 use App\DTO\API_Client\Coins\DeleteDTO;
 use App\DTO\API_Client\Coins\IndexDTO;
 use App\DTO\API_Client\Coins\StoreDTO;
 use App\DTO\API_Client\Coins\UpdateDTO;
-use App\Exceptions\Coin\DeleteCoinException;
-use App\Exceptions\Coin\FindCoinException;
-use App\Exceptions\Coin\IndexCoinsException;
-use App\Exceptions\Coin\StoreCoinException;
+use App\Exceptions\API_Client\Coin\DeleteCoinException;
+use App\Exceptions\API_Client\Coin\FindCoinException;
+use App\Exceptions\API_Client\Coin\IndexCoinsException;
+use App\Exceptions\API_Client\Coin\StoreCoinException;
+use App\Exceptions\API_Client\Coin\UpdateCoinException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API_Client\Coins\DeleteRequest;
 use App\Http\Requests\API_Client\Coins\IndexRequest;
 use App\Http\Requests\API_Client\Coins\StoreRequest;
 use App\Http\Requests\API_Client\Coins\UpdateRequest;
-use App\Http\Resources\Coin\CoinResource;
-use App\Services\API_Client\Coin\CoinService;
+use App\Http\Resources\API_Client\CoinResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class CoinController extends Controller
 {
-    private CoinService $service;
-    public function __construct(CoinService $service)
+    private CoinContract $service;
+    public function __construct(CoinContract $service)
     {
         $this->service = $service;
     }
@@ -60,7 +61,7 @@ class CoinController extends Controller
 
         try {
             $this->service->update($data);
-        } catch (StoreCoinException|FindCoinException $e) {
+        } catch (UpdateCoinException|FindCoinException $e) {
             return response()->json(['error' => $e->getMessage()],  $e->getCode());
         }
 

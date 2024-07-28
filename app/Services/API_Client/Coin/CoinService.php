@@ -2,20 +2,20 @@
 
 namespace App\Services\API_Client\Coin;
 
+use App\Contracts\API_Client\Coin\CoinContract;
 use App\DTO\API_Client\Coins\DeleteDTO;
 use App\DTO\API_Client\Coins\IndexDTO;
 use App\DTO\API_Client\Coins\StoreDTO;
 use App\DTO\API_Client\Coins\UpdateDTO;
-use App\Exceptions\Coin\DeleteCoinException;
-use App\Exceptions\Coin\FindCoinException;
-use App\Exceptions\Coin\IndexCoinsException;
-use App\Exceptions\Coin\StoreCoinException;
+use App\Exceptions\API_Client\Coin\DeleteCoinException;
+use App\Exceptions\API_Client\Coin\FindCoinException;
+use App\Exceptions\API_Client\Coin\IndexCoinsException;
+use App\Exceptions\API_Client\Coin\StoreCoinException;
 use App\Models\Coin;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
 
-class CoinService
+class CoinService implements CoinContract
 {
     public function index(IndexDTO $data): LengthAwarePaginator
     {

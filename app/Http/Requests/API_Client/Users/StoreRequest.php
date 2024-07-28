@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\API_Client\Coins;
+namespace App\Http\Requests\API_Client\Users;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class UpdateRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -15,10 +15,10 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'integer'],
-            'name' => ['required', 'string', 'min:3', 'max:32'],
-            'symbol' => ['required', 'string', 'min:2', 'max:5' , 'unique:coins,symbol'],
-            'price' => ['required', 'numeric', 'min:0.01', 'max:99999.99'],
+            'name' => ['required', 'string', 'max:32'],
+            'email' => ['required', 'string', 'email', 'max:32', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'max:32'],
+            'telegram_id' => ['required', 'string', 'max:100', 'unique:users'],
         ];
     }
 

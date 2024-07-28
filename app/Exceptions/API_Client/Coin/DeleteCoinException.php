@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exceptions\Coin;
+namespace App\Exceptions\API_Client\Coin;
 
 use Exception;
 
