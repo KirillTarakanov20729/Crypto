@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
+/**
+ * @property string $email,
+ * @property string $password
+ */
 class Admin extends Authenticatable implements JWTSubject
 {
     use HasFactory;

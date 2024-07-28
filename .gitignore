@@ -18,3 +18,4 @@ yarn-error.log
 /.vscode
 tmp
 public_html
+.phpunit.result.cache

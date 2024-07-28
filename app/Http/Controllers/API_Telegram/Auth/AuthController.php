@@ -38,9 +38,7 @@ class AuthController extends Controller
             return response()->json(['error' => $e->getMessage()], $e->getCode());
         }
 
-        return response()->json([
-            'message' => 'You have successfully registered'
-        ], 201);
+        return response()->json(['message' => 'You have successfully registered'], 201);
     }
 
     public function login(LoginRequest $request): JsonResponse
@@ -65,9 +63,7 @@ class AuthController extends Controller
            return response()->json(['error' => $e->getMessage()], $e->getCode());
        }
 
-       return response()->json([
-           'message' => 'You have successfully logged in'
-       ], 200);
+       return response()->json(['message' => 'You have successfully logged in'], 200);
     }
 
     public function check_auth(CheckAuthRequest $request): JsonResponse
@@ -80,9 +76,7 @@ class AuthController extends Controller
             return response()->json(['error' => $e->getMessage()], $e->getCode());
         }
 
-        return response()->json([
-            'message' => 'User is logged in'
-        ], 200);
+        return response()->json(['message' => 'User is logged in'], 200);
     }
 
     public function logout(LogoutRequest $request): JsonResponse
@@ -95,8 +89,6 @@ class AuthController extends Controller
             return response()->json(['error' => $e->getMessage()], $e->getCode());
         }
 
-        return response()->json([
-            'message' => 'You have successfully logged out'
-        ], 200);
+        return response()->json(['message' => 'You have successfully logged out'], 200);
     }
 }
