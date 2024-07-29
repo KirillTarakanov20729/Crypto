@@ -17,5 +17,5 @@ interface CoinContract
     public function update(UpdateDTO $data): bool;
     public function delete(DeleteDTO $data): bool;
 
-    public function show(ShowDTO $data): Model;
+    public function show(int $id): Model;
 }

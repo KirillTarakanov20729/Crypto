@@ -155,9 +155,7 @@ class CoinTest extends TestCase
 
         $response->assertStatus(200);
 
-        $response = $this->post('api/client/coins/show', [
-            'id' => 1
-        ], [
+        $response = $this->get('api/client/coins/show/1', [
             'Authorization' => 'Bearer ' . $accessToken
         ]);
 

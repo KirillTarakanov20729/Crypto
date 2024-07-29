@@ -87,10 +87,10 @@ class CoinService implements CoinContract
         return true;
     }
 
-    public function show(ShowDTO $data): Model
+    public function show(int $id): Model
     {
         try {
-            return Coin::query()->findOrFail($data->id);
+            return Coin::query()->findOrFail($id);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             throw new FindCoinException('Coin not found', 404);

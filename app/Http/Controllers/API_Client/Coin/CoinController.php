@@ -83,12 +83,10 @@ class CoinController extends Controller
         return response()->json(['message' => 'Successfully deleted'], 200);
     }
 
-    public function show(ShowRequest $request): CoinResource|JsonResponse
+    public function show(int $id): CoinResource|JsonResponse
     {
-        $data = new ShowDTO($request->validated());
-
         try {
-            $coin = $this->service->show($data);
+            $coin = $this->service->show($id);
         } catch (FindCoinException $e) {
             return response()->json(['error' => $e->getMessage()],  $e->getCode());
         }
