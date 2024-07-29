@@ -5,6 +5,7 @@ namespace App\Services\API_Client\Coin;
 use App\Contracts\API_Client\Coin\CoinContract;
 use App\DTO\API_Client\Coins\DeleteDTO;
 use App\DTO\API_Client\Coins\IndexDTO;
+use App\DTO\API_Client\Coins\ShowDTO;
 use App\DTO\API_Client\Coins\StoreDTO;
 use App\DTO\API_Client\Coins\UpdateDTO;
 use App\Exceptions\API_Client\Coin\DeleteCoinException;
@@ -12,6 +13,7 @@ use App\Exceptions\API_Client\Coin\FindCoinException;
 use App\Exceptions\API_Client\Coin\IndexCoinsException;
 use App\Exceptions\API_Client\Coin\StoreCoinException;
 use App\Models\Coin;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
 
@@ -83,5 +85,15 @@ class CoinService implements CoinContract
         }
 
         return true;
+    }
+
+    public function show(ShowDTO $data): Model
+    {
+        try {
+            return Coin::query()->findOrFail($data->id);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            throw new FindCoinException('Coin not found', 404);
+        }
     }
 }

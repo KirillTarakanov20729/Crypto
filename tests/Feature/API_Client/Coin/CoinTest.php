@@ -137,4 +137,32 @@ class CoinTest extends TestCase
             'id' => 1
         ]);
     }
+
+    public function test_coin_show_work(): void
+    {
+        $user = $this->create_admin_user();
+
+        $this->create_data();
+
+        $this->actingAs($user, 'api');
+
+        $response = $this->post('api/client/auth/login', [
+            'email' => $user->email,
+            'password' => 'admin1234',
+        ]);
+
+        $accessToken = $response->json('access_token');
+
+        $response->assertStatus(200);
+
+        $response = $this->post('api/client/coins/show', [
+            'id' => 1
+        ], [
+            'Authorization' => 'Bearer ' . $accessToken
+        ]);
+
+        $response->assertStatus(200);
+
+        $response->assertSee('BTC');
+    }
 }

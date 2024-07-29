@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API_Client\Coin;
 use App\Contracts\API_Client\Coin\CoinContract;
 use App\DTO\API_Client\Coins\DeleteDTO;
 use App\DTO\API_Client\Coins\IndexDTO;
+use App\DTO\API_Client\Coins\ShowDTO;
 use App\DTO\API_Client\Coins\StoreDTO;
 use App\DTO\API_Client\Coins\UpdateDTO;
 use App\Exceptions\API_Client\Coin\DeleteCoinException;
@@ -15,6 +16,7 @@ use App\Exceptions\API_Client\Coin\UpdateCoinException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API_Client\Coins\DeleteRequest;
 use App\Http\Requests\API_Client\Coins\IndexRequest;
+use App\Http\Requests\API_Client\Coins\ShowRequest;
 use App\Http\Requests\API_Client\Coins\StoreRequest;
 use App\Http\Requests\API_Client\Coins\UpdateRequest;
 use App\Http\Resources\API_Client\CoinResource;
@@ -79,5 +81,18 @@ class CoinController extends Controller
         }
 
         return response()->json(['message' => 'Successfully deleted'], 200);
+    }
+
+    public function show(ShowRequest $request): CoinResource|JsonResponse
+    {
+        $data = new ShowDTO($request->validated());
+
+        try {
+            $coin = $this->service->show($data);
+        } catch (FindCoinException $e) {
+            return response()->json(['error' => $e->getMessage()],  $e->getCode());
+        }
+
+        return new CoinResource($coin);
     }
 }
