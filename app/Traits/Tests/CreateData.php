@@ -3,7 +3,9 @@
 namespace App\Traits\Tests;
 
 use App\Models\Admin;
+use App\Models\Bid;
 use App\Models\Coin;
+use App\Models\Currency;
 use App\Models\User;
 
 trait CreateData
@@ -33,6 +35,10 @@ trait CreateData
         $this->create_coins();
 
         $this->create_users();
+
+        $this->create_currencies();
+
+        $this->create_bids();
     }
 
     public function create_coins(): void
@@ -69,6 +75,42 @@ trait CreateData
         $user_two->password = bcrypt('user1234');
         $user_two->telegram_id = '2323233434';
         $user_two->save();
+    }
+
+    public function create_currencies(): void
+    {
+        $currency_one = new Currency;
+
+        $currency_one->name = 'US Dollar';
+        $currency_one->symbol = 'USD';
+        $currency_one->save();
+
+        $currency_two = new Currency;
+
+        $currency_two->name = 'Euro';
+        $currency_two->symbol = 'EUR';
+        $currency_two->save();
+    }
+
+    public function create_bids(): void
+    {
+        $bid_one = new Bid;
+
+        $bid_one->user_id = 1;
+        $bid_one->coin_id = 1;
+        $bid_one->currency_id = 1;
+        $bid_one->price = 40000;
+        $bid_one->amount = 40000;
+        $bid_one->save();
+
+        $bid_two = new Bid;
+
+        $bid_two->user_id = 2;
+        $bid_two->coin_id = 2;
+        $bid_two->currency_id = 2;
+        $bid_two->price = 4000;
+        $bid_two->amount = 4000;
+        $bid_two->save();
     }
 
 }

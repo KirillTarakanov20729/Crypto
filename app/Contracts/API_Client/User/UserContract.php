@@ -2,11 +2,12 @@
 
 namespace App\Contracts\API_Client\User;
 
-use App\DTO\API_Client\Users\DeleteDTO;
-use App\DTO\API_Client\Users\IndexDTO;
-use App\DTO\API_Client\Users\StoreDTO;
-use App\DTO\API_Client\Users\UpdateDTO;
+use App\DTO\API_Client\User\DeleteDTO;
+use App\DTO\API_Client\User\IndexDTO;
+use App\DTO\API_Client\User\StoreDTO;
+use App\DTO\API_Client\User\UpdateDTO;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Model;
 
 interface UserContract
 {
@@ -14,5 +15,7 @@ interface UserContract
 
     public function store(StoreDTO $data): bool;
     public function update(UpdateDTO $data): bool;
-    public function delete(DeleteDTO $data): bool;
+    public function delete(int $id): bool;
+
+    public function show(int $id): Model;
 }

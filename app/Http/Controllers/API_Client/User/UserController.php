@@ -3,20 +3,20 @@
 namespace App\Http\Controllers\API_Client\User;
 
 use App\Contracts\API_Client\User\UserContract;
-use App\DTO\API_Client\Users\DeleteDTO;
-use App\DTO\API_Client\Users\IndexDTO;
-use App\DTO\API_Client\Users\StoreDTO;
-use App\DTO\API_Client\Users\UpdateDTO;
+use App\DTO\API_Client\User\DeleteDTO;
+use App\DTO\API_Client\User\IndexDTO;
+use App\DTO\API_Client\User\StoreDTO;
+use App\DTO\API_Client\User\UpdateDTO;
 use App\Exceptions\API_Client\User\DeleteUserException;
 use App\Exceptions\API_Client\User\FindUserException;
 use App\Exceptions\API_Client\User\IndexUsersException;
 use App\Exceptions\API_Client\User\StoreUserException;
 use App\Exceptions\API_Client\User\UpdateUserException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\API_Client\Users\DeleteRequest;
-use App\Http\Requests\API_Client\Users\IndexRequest;
-use App\Http\Requests\API_Client\Users\StoreRequest;
-use App\Http\Requests\API_Client\Users\UpdateRequest;
+use App\Http\Requests\API_Client\User\DeleteRequest;
+use App\Http\Requests\API_Client\User\IndexRequest;
+use App\Http\Requests\API_Client\User\StoreRequest;
+use App\Http\Requests\API_Client\User\UpdateRequest;
 use App\Http\Resources\API_Client\UserResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -68,12 +68,10 @@ class UserController extends Controller
         return response()->json(['message' => 'Successfully updated'], 200);
     }
 
-    public function delete(DeleteRequest $request): JsonResponse
+    public function delete(int $id): JsonResponse
     {
-        $data = new DeleteDTO($request->validated());
-
         try {
-            $this->service->delete($data);
+            $this->service->delete($id);
         } catch (FindUserException|DeleteUserException $e) {
             return response()->json(['error' => $e->getMessage()], $e->getCode());
         }
@@ -81,5 +79,14 @@ class UserController extends Controller
         return response()->json(['message' => 'Successfully deleted'], 200);
     }
 
+    public function show(int $id): UserResource|JsonResponse
+    {
+        try {
+            $user = $this->service->show($id);
+        } catch (FindUserException $e) {
+            return response()->json(['error' => $e->getMessage()], $e->getCode());
+        }
 
+        return new UserResource($user);
+    }
 }

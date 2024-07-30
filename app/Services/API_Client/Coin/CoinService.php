@@ -3,11 +3,9 @@
 namespace App\Services\API_Client\Coin;
 
 use App\Contracts\API_Client\Coin\CoinContract;
-use App\DTO\API_Client\Coins\DeleteDTO;
-use App\DTO\API_Client\Coins\IndexDTO;
-use App\DTO\API_Client\Coins\ShowDTO;
-use App\DTO\API_Client\Coins\StoreDTO;
-use App\DTO\API_Client\Coins\UpdateDTO;
+use App\DTO\API_Client\Coin\IndexDTO;
+use App\DTO\API_Client\Coin\StoreDTO;
+use App\DTO\API_Client\Coin\UpdateDTO;
 use App\Exceptions\API_Client\Coin\DeleteCoinException;
 use App\Exceptions\API_Client\Coin\FindCoinException;
 use App\Exceptions\API_Client\Coin\IndexCoinsException;

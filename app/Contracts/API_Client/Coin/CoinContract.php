@@ -2,11 +2,9 @@
 
 namespace App\Contracts\API_Client\Coin;
 
-use App\DTO\API_Client\Coins\DeleteDTO;
-use App\DTO\API_Client\Coins\IndexDTO;
-use App\DTO\API_Client\Coins\ShowDTO;
-use App\DTO\API_Client\Coins\StoreDTO;
-use App\DTO\API_Client\Coins\UpdateDTO;
+use App\DTO\API_Client\Coin\IndexDTO;
+use App\DTO\API_Client\Coin\StoreDTO;
+use App\DTO\API_Client\Coin\UpdateDTO;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 
