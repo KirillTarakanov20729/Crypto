@@ -33,7 +33,6 @@ class UserService implements UserContract
             $user = new User();
             $user->name = $data->name;
             $user->email = $data->email;
-            $user->password = $data->password;
             $user->telegram_id = $data->telegram_id;
             $user->save();
         } catch (\Exception $e) {
@@ -57,7 +56,6 @@ class UserService implements UserContract
         try {
             $user->name = $data->name;
             $user->email = $data->email;
-            $user->password = $data->password;
             $user->telegram_id = $data->telegram_id;
             $user->save();
         } catch (\Exception $e) {

@@ -19,7 +19,6 @@ class UpdateRequest extends FormRequest
             'id' => ['required', 'integer'],
             'name' => ['required', 'string', 'max:32'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $this->id],
-            'password' => ['required', 'string', 'min:8', 'max:32'],
             'telegram_id' => ['required', 'string', 'unique:users,telegram_id,' . $this->id],
             'is_logged_in' => ['required', 'boolean']
         ];
