@@ -125,9 +125,7 @@ class CoinTest extends TestCase
 
         $response->assertStatus(200);
 
-        $response = $this->delete('api/client/coins/delete', [
-            'id' => 1
-        ], [
+        $response = $this->delete('api/client/coins/delete/1', [],[
             'Authorization' => 'Bearer ' . $accessToken
         ]);
 

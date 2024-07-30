@@ -70,12 +70,10 @@ class CoinController extends Controller
         return response()->json(['message' => 'Successfully updated'], 200);
     }
 
-    public function delete(DeleteRequest $request): JsonResponse
+    public function delete(int $id): JsonResponse
     {
-        $data = new DeleteDTO($request->validated());
-
         try {
-            $this->service->delete($data);
+            $this->service->delete($id);
         } catch (FindCoinException|DeleteCoinException $e) {
             return response()->json(['error' => $e->getMessage()],  $e->getCode());
         }

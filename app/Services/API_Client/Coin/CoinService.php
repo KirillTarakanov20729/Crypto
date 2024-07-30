@@ -68,10 +68,10 @@ class CoinService implements CoinContract
         return true;
     }
 
-    public function delete(DeleteDTO $data): bool
+    public function delete(int $id): bool
     {
         try {
-            $coin = Coin::query()->findOrFail($data->id);
+            $coin = Coin::query()->findOrFail($id);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             throw new FindCoinException('Coin not found', 404);

@@ -15,7 +15,7 @@ interface CoinContract
     public function index(IndexDTO $data): LengthAwarePaginator;
     public function store(StoreDTO $data): bool;
     public function update(UpdateDTO $data): bool;
-    public function delete(DeleteDTO $data): bool;
+    public function delete(int $id): bool;
 
     public function show(int $id): Model;
 }
