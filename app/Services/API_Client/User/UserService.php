@@ -57,6 +57,7 @@ class UserService implements UserContract
             $user->name = $data->name;
             $user->email = $data->email;
             $user->telegram_id = $data->telegram_id;
+            $user->is_logged_in = $data->is_logged_in;
             $user->save();
         } catch (\Exception $e) {
             Log::error($e->getMessage());
