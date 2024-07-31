@@ -11,9 +11,9 @@ class BidResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
-            'coin_id' => $this->coin_id,
-            'currency_id' => $this->currency_id,
+            'user' => new UserResource($this->user),
+            'coin' => new CoinResource($this->coin),
+            'currency' => new CurrencyResource($this->currency),
             'price' => $this->price,
             'amount' => $this->amount,
             'status' => $this->status,
