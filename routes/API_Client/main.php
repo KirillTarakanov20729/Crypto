@@ -8,4 +8,5 @@ Route::prefix('client')->group(function () {
     require __DIR__ . '/auth.php';
     require __DIR__ . '/currencies.php';
     require __DIR__ . '/bids.php';
+    require __DIR__ . '/admins.php';
 });

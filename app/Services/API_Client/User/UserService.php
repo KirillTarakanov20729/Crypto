@@ -33,6 +33,7 @@ class UserService implements UserContract
             $user = new User();
             $user->name = $data->name;
             $user->email = $data->email;
+            $user->password = bcrypt($data->password);
             $user->telegram_id = $data->telegram_id;
             $user->save();
         } catch (\Exception $e) {

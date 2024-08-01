@@ -39,6 +39,8 @@ trait CreateData
         $this->create_currencies();
 
         $this->create_bids();
+
+        $this->create_admins();
     }
 
     public function create_coins(): void
@@ -111,6 +113,21 @@ trait CreateData
         $bid_two->price = 4000;
         $bid_two->amount = 4000;
         $bid_two->save();
+    }
+
+    public function create_admins(): void
+    {
+        $admin_one = new Admin;
+
+        $admin_one->email = 'admin_one@mail.ru';
+        $admin_one->password = bcrypt('admin1234');
+        $admin_one->save();
+
+        $admin_two = new Admin;
+
+        $admin_two->email = 'admin_two@mail.ru';
+        $admin_two->password = bcrypt('admin1234');
+        $admin_two->save();
     }
 
 }
