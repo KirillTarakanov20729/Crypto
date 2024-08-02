@@ -23,7 +23,6 @@ class CoinService implements CoinContract
     public function index(IndexDTO $data): LengthAwarePaginator
     {
         try {
-            Cache::put('page', $data->page, 60);
             return Coin::query()->paginate(10, ['*'], 'page', $data->page);
         } catch (\Exception $e) {
             Log::error($e->getMessage());

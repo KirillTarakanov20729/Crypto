@@ -18,7 +18,7 @@ class StoreRequest extends FormRequest
             'amount' => ['required', 'integer', 'min:1', 'max:100000000'],
             'price' => ['required', 'integer', 'min:1', 'max:100000000'],
             'coin_id' => ['required', 'integer', 'exists:coins,id'],
-            'user_id' => ['required', 'integer', 'exists:users,id'],
+            'user_telegram_id' => ['required', 'string', 'exists:users,telegram_id'],
             'currency_id' => ['required', 'integer', 'exists:currencies,id'],
         ];
     }

@@ -11,7 +11,9 @@ use App\Exceptions\API_Client\Bid\FindBidException;
 use App\Exceptions\API_Client\Bid\IndexBidsException;
 use App\Exceptions\API_Client\Bid\StoreBidException;
 use App\Exceptions\API_Client\Bid\UpdateBidException;
+use App\Exceptions\API_Client\user\FindUserException;
 use App\Models\Bid;
+use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
@@ -32,8 +34,16 @@ class BidService implements BidContract
     public function store(StoreDTO $data): bool
     {
         try {
+            /** @var User $user */
+            $user = User::query()->where('telegram_id', $data->user_telegram_id)->first();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            throw new FindUserException('User not found', 404);
+        }
+
+        try {
             $bid = new Bid();
-            $bid->user_id = $data->user_id;
+            $bid->user_id = $user->id;
             $bid->coin_id = $data->coin_id;
             $bid->currency_id = $data->currency_id;
             $bid->price = $data->price;
@@ -58,7 +68,15 @@ class BidService implements BidContract
         }
 
         try {
-            $bid->user_id = $data->user_id;
+            /** @var User $user */
+            $user = User::query()->where('telegram_id', $data->user_telegram_id)->first();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            throw new FindUserException('User not found', 404);
+        }
+
+        try {
+            $bid->user_id = $user->id;
             $bid->coin_id = $data->coin_id;
             $bid->currency_id = $data->currency_id;
             $bid->price = $data->price;
