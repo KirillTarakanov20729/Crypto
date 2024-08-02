@@ -7,4 +7,6 @@ use Spatie\DataTransferObject\DataTransferObject;
 class IndexDTO extends DataTransferObject
 {
     public int $page;
+
+    public? string $search;
 }

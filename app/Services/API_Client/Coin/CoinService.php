@@ -23,7 +23,10 @@ class CoinService implements CoinContract
     public function index(IndexDTO $data): LengthAwarePaginator
     {
         try {
-            return Coin::query()->paginate(10, ['*'], 'page', $data->page);
+            return Coin::query()
+                ->where('symbol', 'like', '%' . $data->search . '%')
+                ->orWhere('name', 'like', '%' . $data->search . '%')
+                ->paginate(10, ['*'], 'page', $data->page);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             throw new IndexCoinsException('Something went wrong', 500);

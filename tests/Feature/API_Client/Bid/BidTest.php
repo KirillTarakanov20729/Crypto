@@ -112,7 +112,7 @@ class BidTest extends TestCase
         $response->assertStatus(200);
 
         $response = $this->post('api/client/bids/store', [
-            'user_id' => 1,
+            'user_telegram_id' => "232323",
             'coin_id' => 1,
             'currency_id' => 1,
             'price' => 50000,
@@ -151,7 +151,7 @@ class BidTest extends TestCase
 
         $response = $this->put('api/client/bids/update', [
             'id' => 1,
-            'user_id' => 1,
+            'user_telegram_id' => "232323",
             'coin_id' => 1,
             'currency_id' => 1,
             'price' => 50000,
