@@ -30,6 +30,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(BidContract::class, BidService::class);
 
         $this->app->bind(AdminContract::class, AdminService::class);
+
+        if ($this->app->environment('local')) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 
     /**

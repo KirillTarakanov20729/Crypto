@@ -6,6 +6,7 @@ use App\Contracts\API_Client\Coin\CoinContract;
 use App\DTO\API_Client\Coin\IndexDTO;
 use App\DTO\API_Client\Coin\StoreDTO;
 use App\DTO\API_Client\Coin\UpdateDTO;
+use App\Exceptions\API_Client\Coin\AllCoinsException;
 use App\Exceptions\API_Client\Coin\DeletecoinException;
 use App\Exceptions\API_Client\Coin\FindcoinException;
 use App\Exceptions\API_Client\Coin\IndexCoinsException;
@@ -18,6 +19,7 @@ use App\Http\Requests\API_Client\Coin\UpdateRequest;
 use App\Http\Resources\API_Client\CoinResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Log;
 
 class CoinController extends Controller
 {
@@ -86,5 +88,16 @@ class CoinController extends Controller
         }
 
         return new CoinResource($coin);
+    }
+
+    public function all(): AnonymousResourceCollection|JsonResponse
+    {
+        try {
+            $coins = $this->service->all();
+        } catch (AllCoinsException $e) {
+            return response()->json(['error' => $e->getMessage()],  $e->getCode());
+        }
+
+        return CoinResource::collection($coins);
     }
 }

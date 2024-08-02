@@ -6,6 +6,7 @@ use App\Contracts\API_Client\Currency\CurrencyContract;
 use App\DTO\API_Client\Currency\IndexDTO;
 use App\DTO\API_Client\Currency\StoreDTO;
 use App\DTO\API_Client\Currency\UpdateDTO;
+use App\Exceptions\API_Client\Currency\AllCurrenciesException;
 use App\Exceptions\API_Client\Currency\DeleteCurrencyException;
 use App\Exceptions\API_Client\Currency\FindCurrencyException;
 use App\Exceptions\API_Client\Currency\IndexCurrenciesException;
@@ -13,7 +14,9 @@ use App\Exceptions\API_Client\Currency\StoreCurrencyException;
 use App\Exceptions\API_Client\Currency\UpdateCurrencyException;
 use App\Models\Currency;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class CurrencyService implements CurrencyContract
@@ -92,6 +95,18 @@ class CurrencyService implements CurrencyContract
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             throw new FindCurrencyException('Currency not found', 404);
+        }
+    }
+
+    public function all(): Collection
+    {
+        try {
+           return  Cache::remember('currencies', 3600, function () {
+                return Currency::query()->orderBy('symbol', 'asc')->get();
+            });
+        } catch(\Exception $e) {
+            Log::error($e->getMessage());
+            throw new AllCurrenciesException('Something went wrong', 500);
         }
     }
 }

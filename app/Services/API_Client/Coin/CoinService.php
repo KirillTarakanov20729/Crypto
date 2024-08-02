@@ -6,13 +6,16 @@ use App\Contracts\API_Client\Coin\CoinContract;
 use App\DTO\API_Client\Coin\IndexDTO;
 use App\DTO\API_Client\Coin\StoreDTO;
 use App\DTO\API_Client\Coin\UpdateDTO;
+use App\Exceptions\API_Client\Coin\AllCoinsException;
 use App\Exceptions\API_Client\Coin\DeleteCoinException;
 use App\Exceptions\API_Client\Coin\FindCoinException;
 use App\Exceptions\API_Client\Coin\IndexCoinsException;
 use App\Exceptions\API_Client\Coin\StoreCoinException;
 use App\Models\Coin;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class CoinService implements CoinContract
@@ -20,6 +23,7 @@ class CoinService implements CoinContract
     public function index(IndexDTO $data): LengthAwarePaginator
     {
         try {
+            Cache::put('page', $data->page, 60);
             return Coin::query()->paginate(10, ['*'], 'page', $data->page);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
@@ -92,6 +96,19 @@ class CoinService implements CoinContract
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             throw new FindCoinException('Coin not found', 404);
+        }
+    }
+
+    public function all(): Collection
+    {
+        try {
+            return Cache::remember('coins', 3600, function () {
+                return Coin::query()->orderBy('symbol', 'asc')->get();
+            });
+
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            throw new AllCoinsException('Something went wrong', 500);
         }
     }
 }

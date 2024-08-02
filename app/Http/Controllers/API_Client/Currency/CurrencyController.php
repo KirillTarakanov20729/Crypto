@@ -6,6 +6,7 @@ use App\Contracts\API_Client\Currency\CurrencyContract;
 use App\DTO\API_Client\Currency\IndexDTO;
 use App\DTO\API_Client\Currency\StoreDTO;
 use App\DTO\API_Client\Currency\UpdateDTO;
+use App\Exceptions\API_Client\Currency\AllCurrenciesException;
 use App\Exceptions\API_Client\Currency\DeleteCurrencyException;
 use App\Exceptions\API_Client\Currency\FindCurrencyException;
 use App\Exceptions\API_Client\Currency\IndexCurrenciesException;
@@ -88,6 +89,17 @@ class CurrencyController extends Controller
         }
 
         return response()->json(['message' => 'Successfully updated'], 200);
+    }
+
+    public function all(): AnonymousResourceCollection|JsonResponse
+    {
+        try {
+            $currencies = $this->service->all();
+        } catch (AllCurrenciesException $e) {
+            return response()->json(['error' => $e->getMessage()],  $e->getCode());
+        }
+
+        return CurrencyResource::collection($currencies);
     }
 
 
