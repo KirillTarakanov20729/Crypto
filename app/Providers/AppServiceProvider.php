@@ -13,6 +13,7 @@ use App\Services\API_Client\Coin\CoinService;
 use App\Services\API_Client\Currency\CurrencyService;
 use App\Services\API_Client\User\UserService;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Telescope\TelescopeApplicationServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,8 +32,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(AdminContract::class, AdminService::class);
 
-        if ($this->app->environment('local')) {
-            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+        if (class_exists(TelescopeApplicationServiceProvider::class)) {
             $this->app->register(TelescopeServiceProvider::class);
         }
     }
