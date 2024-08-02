@@ -59,7 +59,7 @@ class CoinTest extends TestCase
         $response = $this->post('api/client/coins/store', [
             'name' => 'Bitcoin',
             'symbol' => 'BTC',
-            'price' => 40000
+            'price' => 45000
         ], [
             'Authorization' => 'Bearer ' . $accessToken
         ]);
@@ -69,7 +69,7 @@ class CoinTest extends TestCase
         $this->assertDatabaseHas('coins', [
             'name' => 'Bitcoin',
             'symbol' => 'BTC',
-            'price' => 40000
+            'price' => 45000
         ]);
     }
 
