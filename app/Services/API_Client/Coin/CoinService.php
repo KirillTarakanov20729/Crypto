@@ -11,6 +11,7 @@ use App\Exceptions\API_Client\Coin\DeleteCoinException;
 use App\Exceptions\API_Client\Coin\FindCoinException;
 use App\Exceptions\API_Client\Coin\IndexCoinsException;
 use App\Exceptions\API_Client\Coin\StoreCoinException;
+use App\Http\Filters\CoinFilter;
 use App\Models\Coin;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -22,11 +23,10 @@ class CoinService implements CoinContract
 {
     public function index(IndexDTO $data): LengthAwarePaginator
     {
+        $filter = app()->make(CoinFilter::class, ['queryParams' => $data->except('page')->toArray()]);
+
         try {
-            return Coin::query()
-                ->where('symbol', 'like', '%' . $data->search . '%')
-                ->orWhere('name', 'like', '%' . $data->search . '%')
-                ->paginate(10, ['*'], 'page', $data->page);
+            return Coin::filter($filter)->paginate(10, ['*'], 'page', $data->page);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             throw new IndexCoinsException('Something went wrong', 500);
