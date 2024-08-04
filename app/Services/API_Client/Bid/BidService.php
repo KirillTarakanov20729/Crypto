@@ -12,6 +12,7 @@ use App\Exceptions\API_Client\Bid\IndexBidsException;
 use App\Exceptions\API_Client\Bid\StoreBidException;
 use App\Exceptions\API_Client\Bid\UpdateBidException;
 use App\Exceptions\API_Client\user\FindUserException;
+use App\Http\Filters\BidFilter;
 use App\Models\Bid;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -23,8 +24,10 @@ class BidService implements BidContract
 
     public function index(IndexDTO $data): LengthAwarePaginator
     {
+        $filter = app()->make(BidFilter::class, ['queryParams' => $data->except('page')->toArray()]);
+
         try {
-            return Bid::query()->with(['user', 'coin', 'currency'])->paginate(10, ['*'], 'page', $data->page);
+            return Bid::filter($filter)->with(['user', 'coin', 'currency'])->paginate(10, ['*'], 'page', $data->page);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             throw new IndexBidsException('Something went wrong', 500);

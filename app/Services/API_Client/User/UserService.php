@@ -10,6 +10,7 @@ use App\Exceptions\API_Client\User\DeleteUserException;
 use App\Exceptions\API_Client\User\FindUserException;
 use App\Exceptions\API_Client\User\StoreUserException;
 use App\Exceptions\API_Client\User\IndexUsersException;
+use App\Http\Filters\UserFilter;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -19,8 +20,10 @@ class UserService implements UserContract
 {
     public function index(IndexDTO $data): LengthAwarePaginator
     {
+        $filter = app()->make(UserFilter::class, ['queryParams' => $data->except('page')->toArray()]);
+
         try {
-            return User::query()->paginate(10, ['*'], 'page', $data->page);
+            return User::filter($filter)->paginate(10, ['*'], 'page', $data->page);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             throw new IndexUsersException('Something went wrong', 500);

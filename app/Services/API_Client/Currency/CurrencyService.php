@@ -12,6 +12,7 @@ use App\Exceptions\API_Client\Currency\FindCurrencyException;
 use App\Exceptions\API_Client\Currency\IndexCurrenciesException;
 use App\Exceptions\API_Client\Currency\StoreCurrencyException;
 use App\Exceptions\API_Client\Currency\UpdateCurrencyException;
+use App\Http\Filters\CurrencyFilter;
 use App\Models\Currency;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
@@ -24,8 +25,10 @@ class CurrencyService implements CurrencyContract
 
     public function index(IndexDTO $data): LengthAwarePaginator
     {
+        $filter = app()->make(CurrencyFilter::class, ['queryParams' => $data->except('page')->toArray()]);
+
         try {
-            return Currency::query()->paginate(10, ['*'], 'page', $data->page);
+            return Currency::filter($filter)->paginate(10, ['*'], 'page', $data->page);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             throw new IndexCurrenciesException('Something went wrong', 500);

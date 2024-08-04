@@ -4,7 +4,7 @@ namespace App\Http\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class CoinFilter extends AbstractFilter
+class UserFilter extends AbstractFilter
 {
     public const SEARCH = 'search';
 
@@ -18,7 +18,7 @@ class CoinFilter extends AbstractFilter
     public function search(Builder $builder, $value): void
     {
         $builder->where('name', 'like', "%{$value}%")
-            ->orWhere('symbol', 'like', "%{$value}%")
-            ->orWhere('price', $value);
+            ->orWhere('email', 'like', "%{$value}%")
+            ->orWhere('telegram_id', 'like', "%{$value}%");
     }
 }

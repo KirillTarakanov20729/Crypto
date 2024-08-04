@@ -15,6 +15,9 @@ class IndexRequest extends FormRequest
     {
         return [
             'page' => ['required', 'integer', 'min:1', 'max:500'],
+            'coin_id' => ['nullable', 'integer', 'min:1', 'exists:coins,id'],
+            'user_id' => ['nullable', 'integer', 'min:1', 'exists:users,id'],
+            'currency_id' => ['nullable', 'integer', 'min:1', 'exists:currencies,id'],
         ];
     }
 
