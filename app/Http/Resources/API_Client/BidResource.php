@@ -18,6 +18,8 @@ class BidResource extends JsonResource
             'amount' => $this->amount,
             'status' => $this->status,
             'type' => $this->type,
+            'number' => $this->number,
+            'payment_method' => $this->payment_method,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

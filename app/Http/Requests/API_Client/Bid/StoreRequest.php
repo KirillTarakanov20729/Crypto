@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\API_Client\Bid;
 
+use App\Enums\API_Client\Bid\BidPaymentMethodEnum;
 use App\Enums\API_Client\Bid\BidTypeEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -22,6 +23,8 @@ class StoreRequest extends FormRequest
             'user_telegram_id' => ['required', 'string', 'exists:users,telegram_id'],
             'currency_id' => ['required', 'integer', 'exists:currencies,id'],
             'type' => ['required', 'string', 'in:' . implode(',', BidTypeEnum::getValues())],
+            'payment_method' => ['required', 'string', 'in:' . implode(',', BidPaymentMethodEnum::getValues())],
+            'number' => ['required', 'string'],
         ];
     }
 

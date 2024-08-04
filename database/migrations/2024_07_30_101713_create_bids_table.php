@@ -18,6 +18,8 @@ return new class extends Migration
             $table->integer('price');
             $table->string('status')->default(BidStatusEnum::CREATED);
             $table->string('type');
+            $table->string('number');
+            $table->string('payment_method');
             $table->timestamps();
         });
     }

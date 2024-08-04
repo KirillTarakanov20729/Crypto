@@ -2,6 +2,7 @@
 
 namespace App\Traits\Tests;
 
+use App\Enums\API_Client\Bid\BidPaymentMethodEnum;
 use App\Enums\API_Client\Bid\BidTypeEnum;
 use App\Models\Admin;
 use App\Models\Bid;
@@ -105,6 +106,8 @@ trait CreateData
         $bid_one->price = 40000;
         $bid_one->amount = 40000;
         $bid_one->type = BidTypeEnum::BUY();
+        $bid_one->number = '+7(999) 999-99-99';
+        $bid_one->payment_method = BidPaymentMethodEnum::ALFA();
         $bid_one->save();
 
         $bid_two = new Bid;
@@ -115,6 +118,8 @@ trait CreateData
         $bid_two->price = 4000;
         $bid_two->amount = 4000;
         $bid_two->type = BidTypeEnum::BUY();
+        $bid_two->number = '+7(999) 999-99-99';
+        $bid_two->payment_method = BidPaymentMethodEnum::ALFA();
         $bid_two->save();
     }
 

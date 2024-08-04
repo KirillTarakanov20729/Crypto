@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\API_Client\Bid;
 
+use App\Enums\API_Client\Bid\BidPaymentMethodEnum;
 use App\Enums\API_Client\Bid\BidTypeEnum;
 use App\Traits\Tests\CreateData;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -119,7 +120,9 @@ class BidTest extends TestCase
             'currency_id' => 1,
             'price' => 50000,
             'amount' => 40000,
-            'type' => 'sell'
+            'type' => 'sell',
+            'number' => '+7 999 999 99 99',
+            'payment_method' => 'Alfa-bank',
         ], [
             'Authorization' => 'Bearer ' . $accessToken
         ]);
@@ -159,7 +162,10 @@ class BidTest extends TestCase
             'currency_id' => 1,
             'price' => 50000,
             'amount' => 40000,
-            'status' => 'created'
+            'status' => 'created',
+            'type' => 'sell',
+            'number' => '+7 999 999 99 99',
+            'payment_method' => 'Alfa-bank',
         ], [
             'Authorization' => 'Bearer ' . $accessToken
         ]);

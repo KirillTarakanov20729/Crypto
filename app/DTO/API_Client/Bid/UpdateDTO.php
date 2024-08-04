@@ -14,4 +14,7 @@ class UpdateDTO extends DataTransferObject
     public int $price;
     public string $status;
     public string $type;
+    public string $number;
+    public string $payment_method;
+
 }

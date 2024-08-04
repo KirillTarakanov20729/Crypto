@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\API_Client\Bid;
 
+use App\Enums\API_Client\Bid\BidPaymentMethodEnum;
 use App\Enums\API_Client\Bid\BidStatusEnum;
 use App\Enums\API_Client\Bid\BidTypeEnum;
 use Illuminate\Foundation\Http\FormRequest;
@@ -33,6 +34,8 @@ class UpdateRequest extends FormRequest
             'currency_id' => ['required', 'integer', 'exists:currencies,id'],
             'status' => ['required', 'string', 'in:' . implode(',', BidStatusEnum::getValues())],
             'type' => ['required', 'string', 'in:' . implode(',', BidTypeEnum::getValues())],
+            'payment_method' => ['required', 'string', 'in:' . implode(',', BidPaymentMethodEnum::getValues())],
+            'number' => ['required', 'string'],
         ];
     }
 
