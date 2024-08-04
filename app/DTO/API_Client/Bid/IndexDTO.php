@@ -8,7 +8,7 @@ class IndexDTO extends DataTransferObject
 {
     public int $page;
     public? int $coin_id;
-    public? int $user_id;
+    public? string $user_email;
     public? int $currency_id;
 
 }

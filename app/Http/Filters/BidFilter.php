@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class BidFilter extends AbstractFilter
 {
-    public const USER_ID = 'user_id';
+    public const USER_EMAIL = 'user_email';
     public const COIN_ID = 'coin_id';
     public const CURRENCY_ID = 'currency_id';
 
@@ -14,15 +14,17 @@ class BidFilter extends AbstractFilter
     protected function getCallbacks(): array
     {
         return [
-            self::USER_ID => [$this, 'user_id'],
+            self::USER_EMAIL => [$this, 'user_email'],
             self::COIN_ID => [$this, 'coin_id'],
             self::CURRENCY_ID => [$this, 'currency_id']
         ];
     }
 
-    public function user_id(Builder $builder, $value): void
+    public function user_email(Builder $builder, $value): void
     {
-        $builder->where('user_id', $value);
+        $builder->whereHas('user', function ($query) use ($value) {
+            $query->where('email', 'like', "%{$value}%");
+        });
     }
 
     public function coin_id(Builder $builder, $value): void
