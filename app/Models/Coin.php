@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @property string $name
  * @property string $symbol
- * @property float $price
+ * @property string $price
  */
 class Coin extends Model
 {
