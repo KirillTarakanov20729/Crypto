@@ -16,6 +16,7 @@ class IndexRequest extends FormRequest
     {
         return [
             'page' => ['required', 'integer', 'min:1', 'max:500'],
+            'per_page' => ['required', 'integer', 'min:10', 'max:100'],
             'search' => ['nullable','string', 'max:255']
         ];
     }

@@ -15,6 +15,7 @@ class IndexRequest extends FormRequest
     {
         return [
             'page' => ['required', 'integer', 'min:1', 'max:500'],
+            'per_page' => ['required', 'integer', 'min:10', 'max:100'],
             'coin_id' => ['nullable', 'integer', 'min:1', 'exists:coins,id'],
             'user_email' => ['nullable', 'string'],
             'currency_id' => ['nullable', 'integer', 'min:1', 'exists:currencies,id'],

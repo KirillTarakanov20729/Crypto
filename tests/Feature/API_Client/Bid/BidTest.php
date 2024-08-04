@@ -30,7 +30,8 @@ class BidTest extends TestCase
         $response->assertStatus(200);
 
         $response = $this->post('api/client/bids/index', [
-            'page' => 1
+            'page' => 1,
+            'per_page' => 10
         ], [
             'Authorization' => 'Bearer ' . $accessToken
         ]);

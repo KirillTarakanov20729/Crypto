@@ -23,7 +23,7 @@ class UserService implements UserContract
         $filter = app()->make(UserFilter::class, ['queryParams' => $data->except('page')->toArray()]);
 
         try {
-            return User::filter($filter)->paginate(10, ['*'], 'page', $data->page);
+            return User::filter($filter)->paginate($data->per_page, ['*'], 'page', $data->page);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             throw new IndexUsersException('Something went wrong', 500);
