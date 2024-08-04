@@ -3,6 +3,7 @@
 namespace App\Http\Requests\API_Client\Bid;
 
 use App\Enums\API_Client\Bid\BidStatusEnum;
+use App\Enums\API_Client\Bid\BidTypeEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
@@ -31,6 +32,7 @@ class UpdateRequest extends FormRequest
             'user_telegram_id' => ['required', 'string', 'exists:users,telegram_id'],
             'currency_id' => ['required', 'integer', 'exists:currencies,id'],
             'status' => ['required', 'string', 'in:' . implode(',', BidStatusEnum::getValues())],
+            'type' => ['required', 'string', 'in:' . implode(',', BidTypeEnum::getValues())],
         ];
     }
 

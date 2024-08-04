@@ -51,6 +51,7 @@ class BidService implements BidContract
             $bid->currency_id = $data->currency_id;
             $bid->price = $data->price;
             $bid->amount = $data->amount;
+            $bid->type = $data->type;
             $bid->save();
         } catch (\Exception $e) {
             Log::error($e->getMessage());
@@ -85,6 +86,7 @@ class BidService implements BidContract
             $bid->price = $data->price;
             $bid->amount = $data->amount;
             $bid->status = $data->status;
+            $bid->type = $data->type;
             $bid->save();
         } catch (\Exception $e) {
             Log::error($e->getMessage());

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\API_Client\Bid\BidStatusEnum;
+use App\Enums\API_Client\Bid\BidTypeEnum;
 use App\Models\Coin;
 use App\Models\Currency;
 use App\Models\User;
@@ -22,6 +23,7 @@ class BidFactory extends Factory
             'amount' => $this->faker->numberBetween(1, 1000),
             'price' => $this->faker->numberBetween(1, 1000),
             'status' => BidStatusEnum::CREATED(),
+            'type' => rand(0, 1) ? BidTypeEnum::BUY() : BidTypeEnum::SELL(),
         ];
     }
 }

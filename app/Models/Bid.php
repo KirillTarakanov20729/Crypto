@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\API_Client\Bid\BidStatusEnum;
+use App\Enums\API_Client\Bid\BidTypeEnum;
 use App\Traits\Filter\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $amount
  * @property int $price
  * @property string $status
+ * @property string $type
  */
 class Bid extends Model
 {
@@ -27,7 +30,13 @@ class Bid extends Model
         'currency_id',
         'amount',
         'price',
-        'status'
+        'status',
+        'type'
+    ];
+
+    protected $casts = [
+        'status' => BidStatusEnum::class,
+        'type' => BidTypeEnum::class
     ];
 
     public function user(): BelongsTo

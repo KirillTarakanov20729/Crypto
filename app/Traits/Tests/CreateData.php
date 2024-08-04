@@ -2,6 +2,7 @@
 
 namespace App\Traits\Tests;
 
+use App\Enums\API_Client\Bid\BidTypeEnum;
 use App\Models\Admin;
 use App\Models\Bid;
 use App\Models\Coin;
@@ -103,6 +104,7 @@ trait CreateData
         $bid_one->currency_id = 1;
         $bid_one->price = 40000;
         $bid_one->amount = 40000;
+        $bid_one->type = BidTypeEnum::BUY();
         $bid_one->save();
 
         $bid_two = new Bid;
@@ -112,6 +114,7 @@ trait CreateData
         $bid_two->currency_id = 2;
         $bid_two->price = 4000;
         $bid_two->amount = 4000;
+        $bid_two->type = BidTypeEnum::BUY();
         $bid_two->save();
     }
 

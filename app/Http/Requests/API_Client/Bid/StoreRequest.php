@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\API_Client\Bid;
 
+use App\Enums\API_Client\Bid\BidTypeEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
@@ -20,6 +21,7 @@ class StoreRequest extends FormRequest
             'coin_id' => ['required', 'integer', 'exists:coins,id'],
             'user_telegram_id' => ['required', 'string', 'exists:users,telegram_id'],
             'currency_id' => ['required', 'integer', 'exists:currencies,id'],
+            'type' => ['required', 'string', 'in:' . implode(',', BidTypeEnum::getValues())],
         ];
     }
 

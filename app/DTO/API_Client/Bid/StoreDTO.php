@@ -11,4 +11,5 @@ class StoreDTO extends DataTransferObject
     public int $currency_id;
     public int $amount;
     public int $price;
+    public string $type;
 }

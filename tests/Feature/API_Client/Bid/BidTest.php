@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\API_Client\Bid;
 
+use App\Enums\API_Client\Bid\BidTypeEnum;
 use App\Traits\Tests\CreateData;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -117,7 +118,8 @@ class BidTest extends TestCase
             'coin_id' => 1,
             'currency_id' => 1,
             'price' => 50000,
-            'amount' => 40000
+            'amount' => 40000,
+            'type' => 'sell'
         ], [
             'Authorization' => 'Bearer ' . $accessToken
         ]);

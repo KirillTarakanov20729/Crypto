@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('amount');
             $table->integer('price');
             $table->string('status')->default(BidStatusEnum::CREATED);
+            $table->string('type');
             $table->timestamps();
         });
     }
