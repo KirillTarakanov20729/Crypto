@@ -89,6 +89,6 @@ class AuthController extends Controller
             return response()->json(['error' => $e->getMessage()], $e->getCode());
         }
 
-        return response()->json(['message' => 'You have successfully logged out'], 200);
+        return response()->json(['message' => 'You have successfully logged out']);
     }
 }

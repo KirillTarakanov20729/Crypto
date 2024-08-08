@@ -101,11 +101,11 @@ class AuthService
         $user = User::query()->where('telegram_id', $data->telegram_id)->first();
 
         if (!$user) {
-            throw new FindUserException('User not found');
+            throw new FindUserException('User not found', 404);
         }
 
         if (!$user->is_logged_in) {
-            throw new LogoutException('User is not logged in');
+            throw new LogoutException('User is not logged in', 403);
         }
 
         $user->is_logged_in = false;

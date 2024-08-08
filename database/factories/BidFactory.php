@@ -25,7 +25,7 @@ class BidFactory extends Factory
             'price' => $this->faker->numberBetween(1, 1000),
             'status' => BidStatusEnum::CREATED(),
             'type' => rand(0, 1) ? BidTypeEnum::BUY() : BidTypeEnum::SELL(),
-            'number' => $this->faker->phoneNumber(),
+            'number' => '+79104321916',
             'payment_method' => rand(0, 1) ? BidPaymentMethodEnum::SBER() : BidPaymentMethodEnum::ALFA()
         ];
     }
