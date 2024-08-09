@@ -14,6 +14,7 @@ use App\Exceptions\API_Telegram\Auth\LoginTelegramIdException;
 use App\Exceptions\API_Telegram\Auth\LogoutException;
 use App\Exceptions\API_Telegram\Auth\StoreUserException;
 use App\Models\User;
+use App\Models\Wallet;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -28,11 +29,15 @@ class AuthService implements AuthContract
             $user->password = bcrypt($data->password);
             $user->telegram_id = $data->telegram_id;
             $user->is_logged_in = true;
-            return $user->save();
+            $user->save();
+
+            $this->store_wallets($user->id);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             throw new StoreUserException('An error has occurred', 500);
         }
+
+        return true;
     }
 
     public function check_credentials(LoginDTO $data): bool
@@ -112,6 +117,42 @@ class AuthService implements AuthContract
         $user->is_logged_in = false;
 
         return $user->save();
+    }
+
+    private function store_wallets(int $user_id): void
+    {
+        try {
+            $btc_wallet          = new Wallet;
+            $btc_wallet->user_id = $user_id;
+            $btc_wallet->coin_id = 1;
+            $btc_wallet->balance = 0;
+            $btc_wallet->uuid = uuid_create();
+            $btc_wallet->save();
+
+            $eth_wallet          = new Wallet;
+            $eth_wallet->user_id = $user_id;
+            $eth_wallet->coin_id = 2;
+            $eth_wallet->balance = 0;
+            $eth_wallet->uuid = uuid_create();
+            $eth_wallet->save();
+
+            $sol_wallet          = new Wallet;
+            $sol_wallet->user_id = $user_id;
+            $sol_wallet->coin_id = 3;
+            $sol_wallet->balance = 0;
+            $sol_wallet->uuid = uuid_create();
+            $sol_wallet->save();
+
+            $bnb_wallet          = new Wallet;
+            $bnb_wallet->user_id = $user_id;
+            $bnb_wallet->coin_id = 4;
+            $bnb_wallet->balance = 0;
+            $bnb_wallet->uuid = uuid_create();
+            $bnb_wallet->save();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            throw new StoreUserException('An error has occurred', 500);
+        }
     }
 }
 

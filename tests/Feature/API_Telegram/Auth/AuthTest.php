@@ -13,6 +13,8 @@ class AuthTest extends TestCase
     use CreateData;
     public function test_register_work()
     {
+        $this->create_data();
+
         $response = $this->post('api/telegram/auth/register', [
             'email' => 'test@mail.ru',
             'password' => 'admin1234',

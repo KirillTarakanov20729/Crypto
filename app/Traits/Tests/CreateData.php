@@ -61,6 +61,20 @@ trait CreateData
         $coin_two->symbol = 'ETH';
         $coin_two->price = 4000;
         $coin_two->save();
+
+        $coin_three = new Coin;
+
+        $coin_three->name = 'Solana';
+        $coin_three->symbol = 'SOL';
+        $coin_three->price = 400;
+        $coin_three->save();
+
+        $coin_four = new Coin;
+
+        $coin_four->name = 'BNB';
+        $coin_four->symbol = 'BNB';
+        $coin_four->price = 400;
+        $coin_four->save();
     }
 
     public function create_users(): void
