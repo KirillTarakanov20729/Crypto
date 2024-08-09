@@ -2,6 +2,7 @@
 
 namespace App\Services\API_Telegram\Auth;
 
+use App\Contracts\API_Telegram\Auth\AuthContract;
 use App\DTO\API_Telegram\Auth\LoginDTO;
 use App\DTO\API_Telegram\Auth\RegisterDTO;
 use App\DTO\API_Telegram\Auth\TelegramIdDTO;
@@ -16,7 +17,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
-class AuthService
+class AuthService implements AuthContract
 {
     public function store_user(RegisterDTO $data): bool
     {

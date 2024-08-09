@@ -2,13 +2,14 @@
 
 namespace App\Services\API_Telegram\Coin;
 
+use App\Contracts\API_Telegram\Coin\CoinContract;
 use App\Exceptions\API_Client\Coin\AllCoinsException;
 use App\Models\Coin;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
-class CoinService
+class CoinService implements CoinContract
 {
     public function all(): Collection
     {

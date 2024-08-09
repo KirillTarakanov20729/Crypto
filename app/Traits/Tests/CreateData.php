@@ -9,6 +9,7 @@ use App\Models\Bid;
 use App\Models\Coin;
 use App\Models\Currency;
 use App\Models\User;
+use App\Models\Wallet;
 
 trait CreateData
 {
@@ -72,6 +73,13 @@ trait CreateData
         $user_one->telegram_id = '232323';
         $user_one->save();
 
+        $wallet_for_user_one = new Wallet;
+        $wallet_for_user_one->user_id = $user_one->id;
+        $wallet_for_user_one->balance = 0;
+        $wallet_for_user_one->uuid = uuid_create();
+        $wallet_for_user_one->coin_id = 1;
+        $wallet_for_user_one->save();
+
         $user_two = new User;
 
         $user_two->name = 'User Two';
@@ -79,6 +87,13 @@ trait CreateData
         $user_two->password = bcrypt('user1234');
         $user_two->telegram_id = '2323233434';
         $user_two->save();
+
+        $wallet_for_user_two = new Wallet;
+        $wallet_for_user_two->user_id = $user_two->id;
+        $wallet_for_user_two->balance = 0;
+        $wallet_for_user_two->uuid = uuid_create();
+        $wallet_for_user_two->coin_id = 2;
+        $wallet_for_user_two->save();
     }
 
     public function create_currencies(): void

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API_Telegram\Coin;
 
+use App\Contracts\API_Telegram\Coin\CoinContract;
 use App\Exceptions\API_Client\Coin\AllCoinsException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\API_Client\CoinResource;
@@ -12,9 +13,9 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class CoinController extends Controller
 {
-    private CoinService $service;
+    private CoinContract $service;
 
-    public function __construct(CoinService $service)
+    public function __construct(CoinContract $service)
     {
         $this->service = $service;
     }

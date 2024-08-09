@@ -27,4 +27,9 @@ class Coin extends Model
     {
         return $this->hasMany(Bid::class);
     }
+
+    public function wallets(): HasMany
+    {
+        return $this->hasMany(Wallet::class);
+    }
 }

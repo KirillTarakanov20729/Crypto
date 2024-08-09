@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API_Telegram\Auth;
 
+use App\Contracts\API_Telegram\Auth\AuthContract;
 use App\DTO\API_Telegram\Auth\LoginDTO;
 use App\DTO\API_Telegram\Auth\RegisterDTO;
 use App\DTO\API_Telegram\Auth\TelegramIdDTO;
@@ -19,11 +20,12 @@ use App\Http\Requests\API_Telegram\Auth\LogoutRequest;
 use App\Http\Requests\API_Telegram\Auth\RegisterRequest;
 use App\Services\API_Telegram\Auth\AuthService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
-    private AuthService $service;
-    public function __construct(AuthService $service)
+    private AuthContract $service;
+    public function __construct(AuthContract $service)
     {
         $this->service = $service;
     }
