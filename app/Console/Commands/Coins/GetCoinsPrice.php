@@ -4,6 +4,7 @@ namespace App\Console\Commands\Coins;
 
 use App\Models\Coin;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 
 class GetCoinsPrice extends Command
 {
@@ -14,6 +15,7 @@ class GetCoinsPrice extends Command
         $this->get_btc_price();
         $this->get_bnb_price();
         $this->get_sol_price();
+        Cache::forget('coins');
     }
 
     private function get_eth_price(): void
@@ -23,7 +25,7 @@ class GetCoinsPrice extends Command
 
         /** @var Coin $eth */
         $eth = Coin::query()->where('symbol', 'ETH')->first();
-        $eth->price = $priceData['price'];
+        $eth->price = number_format($priceData['price'], 2, '.', '');
         $eth->save();
     }
 
@@ -34,7 +36,7 @@ class GetCoinsPrice extends Command
 
         /** @var Coin $btc */
         $btc        = Coin::query()->where('symbol', 'BTC')->first();
-        $btc->price = $priceData['price'];
+        $btc->price = number_format($priceData['price'], 2, '.', '');
         $btc->save();
     }
 
@@ -45,7 +47,7 @@ class GetCoinsPrice extends Command
 
         /** @var Coin $bnb */
         $bnb        = Coin::query()->where('symbol', 'BNB')->first();
-        $bnb->price = $priceData['price'];
+        $bnb->price = number_format($priceData['price'], 2, '.', '');
         $bnb->save();
     }
 
@@ -56,7 +58,7 @@ class GetCoinsPrice extends Command
 
         /** @var Coin $sol */
         $sol        = Coin::query()->where('symbol', 'SOL')->first();
-        $sol->price = $priceData['price'];
+        $sol->price = number_format($priceData['price'], 2, '.', '');
         $sol->save();
     }
 }
