@@ -21,7 +21,7 @@ class BidController extends Controller
         $this->service = $service;
     }
 
-    public function index(IndexRequest $request): JsonResponse|AnonymousResourceCollection
+    public function index(IndexRequest $request): JsonResponse
     {
         $data = new IndexDTO($request->validated());
 
@@ -31,6 +31,6 @@ class BidController extends Controller
             return response()->json(['error' => $e->getMessage()],  $e->getCode());
         }
 
-        return BidResource::collection($bids);
+        return response()->json(['data' => $bids], 200);
     }
 }

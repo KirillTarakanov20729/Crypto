@@ -8,11 +8,12 @@ use App\Exceptions\API_Telegram\Bid\IndexBidsException;
 use App\Http\Filters\BidFilter;
 use App\Models\Bid;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Facades\Log;
 
 class BidService implements BidContract
 {
-    public function index(IndexDTO $data): LengthAwarePaginator
+    public function index(IndexDTO $data): Paginator|LengthAwarePaginator
     {
         $filter = app()->make(BidFilter::class, ['queryParams' => $data->except('page')->toArray()]);
 
