@@ -8,7 +8,6 @@ use App\Exceptions\API_Telegram\Bid\IndexBidsException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API_Telegram\Bid\IndexRequest;
 use App\Http\Resources\API_Telegram\BidResource;
-use App\Http\Resources\API_Telegram\IndexBidsResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
