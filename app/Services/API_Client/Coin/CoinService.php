@@ -41,6 +41,8 @@ class CoinService implements CoinContract
             $coin->symbol = $data->symbol;
             $coin->price = $data->price;
             $coin->save();
+
+            Cache::forget('coins');
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             throw new StoreCoinException('Something went wrong', 500);
@@ -64,6 +66,8 @@ class CoinService implements CoinContract
             $coin->symbol = $data->symbol;
             $coin->price  = $data->price;
             $coin->save();
+
+            Cache::forget('coins');
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             throw new StoreCoinException('Something went wrong', 500);
@@ -83,6 +87,8 @@ class CoinService implements CoinContract
 
         try {
             $coin->delete();
+
+            Cache::forget('coins');
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             throw new DeleteCoinException('Something went wrong', 500);
