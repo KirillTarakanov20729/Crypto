@@ -42,6 +42,8 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(\App\Contracts\API_Telegram\Coin\CoinContract::class, \App\Services\API_Telegram\Coin\CoinService::class);
 
+        $this->app->bind(\App\Contracts\API_Telegram\Bid\BidContract::class, \App\Services\API_Telegram\Bids\BidService::class);
+
         if (class_exists(TelescopeApplicationServiceProvider::class)) {
             $this->app->register(TelescopeServiceProvider::class);
         }
