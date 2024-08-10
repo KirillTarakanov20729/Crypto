@@ -7,8 +7,8 @@ use Spatie\DataTransferObject\DataTransferObject;
 class StoreDTO extends DataTransferObject
 {
     public int $user_telegram_id;
-    public int $coin_id;
-    public int $currency_id;
+    public string $coin_symbol;
+    public string $currency_symbol;
     public string $price;
     public string $amount;
     public string $type;

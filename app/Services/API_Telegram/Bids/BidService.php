@@ -10,6 +10,8 @@ use App\Exceptions\API_Telegram\Bid\StoreBidException;
 use App\Exceptions\API_Telegram\User\FindUserException;
 use App\Http\Filters\BidFilter;
 use App\Models\Bid;
+use App\Models\Coin;
+use App\Models\Currency;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Pagination\Paginator;
@@ -38,10 +40,26 @@ class BidService implements BidContract
         }
 
         try {
+            /** @var Coin $coin */
+            $coin = Coin::query()->where('symbol', $data->coin_symbol)->first();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            throw new StoreBidException('Coin not found', 404);
+        }
+
+        try {
+            /** @var Currency $currency */
+            $currency = Currency::query()->where('symbol', $data->currency_symbol)->first();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            throw new StoreBidException('Currency not found', 404);
+        }
+
+        try {
             $bid = new Bid();
             $bid->user_id = $user->id;
-            $bid->coin_id = $data->coin_id;
-            $bid->currency_id = $data->currency_id;
+            $bid->coin_id = $coin->id;
+            $bid->currency_id = $currency->id;
             $bid->price = $data->price;
             $bid->amount = $data->amount;
             $bid->type = $data->type;

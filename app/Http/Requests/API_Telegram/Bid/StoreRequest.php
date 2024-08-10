@@ -18,9 +18,9 @@ class StoreRequest extends FormRequest
         return [
             'amount' => ['required', 'integer', 'min:1', 'max:100000000'],
             'price' => ['required', 'integer', 'min:1', 'max:100000000'],
-            'coin_id' => ['required', 'integer', 'exists:coins,id'],
+            'coin_symbol' => ['required', 'string', 'exists:coins,symbol'],
             'user_telegram_id' => ['required', 'string', 'exists:users,telegram_id'],
-            'currency_id' => ['required', 'integer', 'exists:currencies,id'],
+            'currency_symbol' => ['required', 'string', 'exists:currencies,symbol'],
             'type' => ['required', 'string', 'in:' . implode(',', BidTypeEnum::getValues())],
             'payment_method' => ['required', 'string', 'in:' . implode(',', BidPaymentMethodEnum::getValues())],
             'number' => ['required', 'string'],

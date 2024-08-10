@@ -31,8 +31,8 @@ class BidTest extends TestCase
         $response = $this->post('api/telegram/bids/store', [
             'price' => 100,
             'user_telegram_id' => '232323',
-            'coin_id' => 1,
-            'currency_id' => 1,
+            'coin_symbol' => 'BTC',
+            'currency_symbol' => 'USD',
             'amount' => 100,
             'type' => 'buy',
             'payment_method' => 'Sber',
