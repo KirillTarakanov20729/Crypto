@@ -16,6 +16,7 @@ class IndexRequest extends FormRequest
     {
         return [
             'page' => ['required', 'integer'],
+            'coin_id' => ['nullable', 'integer'],
         ];
     }
 
