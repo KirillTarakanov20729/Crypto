@@ -23,4 +23,22 @@ class BidTest extends TestCase
 
         $response->assertSee('price');
     }
+
+    public function test_bid_store_work()
+    {
+        $this->create_data();
+
+        $response = $this->post('api/telegram/bids/store', [
+            'price' => 100,
+            'user_telegram_id' => '232323',
+            'coin_id' => 1,
+            'currency_id' => 1,
+            'amount' => 100,
+            'type' => 'buy',
+            'payment_method' => 'Sber',
+            'number' => "+79999999999",
+        ]);
+
+        $response->assertStatus(201);
+    }
 }

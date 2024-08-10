@@ -4,9 +4,12 @@ namespace App\Http\Controllers\API_Telegram\Bids;
 
 use App\Contracts\API_Telegram\Bid\BidContract;
 use App\DTO\API_Telegram\Bid\IndexDTO;
+use App\DTO\API_Telegram\Bid\StoreDTO;
 use App\Exceptions\API_Telegram\Bid\IndexBidsException;
+use App\Exceptions\API_Telegram\Bid\StoreBidException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API_Telegram\Bid\IndexRequest;
+use App\Http\Requests\API_Telegram\Bid\StoreRequest;
 use App\Http\Resources\API_Telegram\BidResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -32,5 +35,18 @@ class BidController extends Controller
         }
 
         return BidResource::collection($bids);
+    }
+
+    public function store(StoreRequest $request): JsonResponse
+    {
+        $data = new StoreDTO($request->validated());
+
+        try {
+            $this->service->store($data);
+        } catch (StoreBidException $e) {
+            return response()->json(['error' => $e->getMessage()],  $e->getCode());
+        }
+
+        return response()->json(['message' => 'Successfully created'], 201);
     }
 }
