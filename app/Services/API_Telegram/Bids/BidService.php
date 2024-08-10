@@ -15,10 +15,8 @@ class BidService implements BidContract
 {
     public function index(IndexDTO $data): LengthAwarePaginator
     {
-        $filter = app()->make(BidFilter::class, ['queryParams' => $data->except('page')->toArray()]);
-
         try {
-            return Bid::filter($filter)->with(['user', 'coin', 'currency'])->paginate(3, ['*'], 'page', $data->page);
+            return Bid::query()->paginate(10, ['*'], 'page', $data->page);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             throw new IndexBidsException('Something went wrong', 500);
