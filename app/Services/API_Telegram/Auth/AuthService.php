@@ -124,28 +124,28 @@ class AuthService implements AuthContract
         try {
             $btc_wallet          = new Wallet;
             $btc_wallet->user_id = $user_id;
-            $btc_wallet->coin_id = 4;
+            $btc_wallet->coin_id = 1;
             $btc_wallet->balance = 0;
             $btc_wallet->uuid = uuid_create();
             $btc_wallet->save();
 
             $eth_wallet          = new Wallet;
             $eth_wallet->user_id = $user_id;
-            $eth_wallet->coin_id = 1;
+            $eth_wallet->coin_id = 2;
             $eth_wallet->balance = 0;
             $eth_wallet->uuid = uuid_create();
             $eth_wallet->save();
 
             $sol_wallet          = new Wallet;
             $sol_wallet->user_id = $user_id;
-            $sol_wallet->coin_id = 2;
+            $sol_wallet->coin_id = 3;
             $sol_wallet->balance = 0;
             $sol_wallet->uuid = uuid_create();
             $sol_wallet->save();
 
             $bnb_wallet          = new Wallet;
             $bnb_wallet->user_id = $user_id;
-            $bnb_wallet->coin_id = 3;
+            $bnb_wallet->coin_id = 4;
             $bnb_wallet->balance = 0;
             $bnb_wallet->uuid = uuid_create();
             $bnb_wallet->save();

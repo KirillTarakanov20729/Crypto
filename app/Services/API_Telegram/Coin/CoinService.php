@@ -14,8 +14,8 @@ class CoinService implements CoinContract
     public function all(): Collection
     {
         try {
-            return Cache::remember('coins', 3600, function () {
-                return Coin::query()->orderBy('symbol', 'asc')->get();
+            return Cache::remember('coins_for_telegram', 3600, function () {
+                return Coin::query()->get();
             });
 
         } catch (\Exception $e) {

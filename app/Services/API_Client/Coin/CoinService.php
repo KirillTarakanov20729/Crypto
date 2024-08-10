@@ -43,6 +43,7 @@ class CoinService implements CoinContract
             $coin->save();
 
             Cache::forget('coins');
+            Cache::forget('coins_for_telegram');
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             throw new StoreCoinException('Something went wrong', 500);
@@ -68,6 +69,7 @@ class CoinService implements CoinContract
             $coin->save();
 
             Cache::forget('coins');
+            Cache::forget('coins_for_telegram');
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             throw new StoreCoinException('Something went wrong', 500);
@@ -88,7 +90,8 @@ class CoinService implements CoinContract
         try {
             $coin->delete();
 
-            Cache::forget('coins');
+            Cache::forget('coins_for_client');
+            Cache::forget('coins_for_telegram');
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             throw new DeleteCoinException('Something went wrong', 500);
@@ -110,7 +113,7 @@ class CoinService implements CoinContract
     public function all(): Collection
     {
         try {
-            return Cache::remember('coins', 3600, function () {
+            return Cache::remember('coins_for_client', 3600, function () {
                 return Coin::query()->orderBy('symbol', 'asc')->get();
             });
 
