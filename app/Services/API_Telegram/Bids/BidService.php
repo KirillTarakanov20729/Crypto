@@ -4,6 +4,7 @@ namespace App\Services\API_Telegram\Bids;
 
 use App\Contracts\API_Telegram\Bid\BidContract;
 use App\DTO\API_Telegram\Bid\IndexDTO;
+use App\DTO\API_Telegram\Bid\ShowUserBidsDTO;
 use App\DTO\API_Telegram\Bid\StoreDTO;
 use App\Exceptions\API_Telegram\Bid\IndexBidsException;
 use App\Exceptions\API_Telegram\Bid\StoreBidException;
@@ -77,5 +78,18 @@ class BidService implements BidContract
         }
 
         return true;
+    }
+
+    public function showUserBids(ShowUserBidsDTO $data): LengthAwarePaginator
+    {
+        try {
+            return Bid::query()->whereHas('user', function ($query) use ($data) {
+                $query->where('telegram_id', $data->user_telegram_id);
+            })
+                ->paginate(10, ['*'], 'page', $data->page);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            throw new IndexBidsException('Something went wrong', 500);
+        }
     }
 }
