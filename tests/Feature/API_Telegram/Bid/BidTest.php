@@ -56,4 +56,18 @@ class BidTest extends TestCase
 
         $response->assertSee('price');
     }
+
+    public function test_delete_bid_work()
+    {
+        $this->create_data();
+
+        $bid = $this->get_one_bid();
+
+        $response = $this->delete('api/telegram/bids/delete', [
+            'uuid' => $bid->uuid,
+            'user_telegram_id' => '232323',
+        ]);
+
+        $response->assertStatus(200);
+    }
 }

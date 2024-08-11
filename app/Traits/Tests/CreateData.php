@@ -169,4 +169,12 @@ trait CreateData
         $admin_two->save();
     }
 
+    public function get_one_bid(): Bid
+    {
+        /** @var Bid $bid */
+        $bid = Bid::query()->first();
+
+        return $bid;
+    }
+
 }

@@ -2,6 +2,7 @@
 
 namespace App\Contracts\API_Telegram\Bid;
 
+use App\DTO\API_Telegram\Bid\DeleteBidDTO;
 use App\DTO\API_Telegram\Bid\IndexDTO;
 use App\DTO\API_Telegram\Bid\ShowUserBidsDTO;
 use App\DTO\API_Telegram\Bid\StoreDTO;
@@ -14,4 +15,6 @@ interface BidContract
     public function store(StoreDTO $data): bool;
 
     public function showUserBids(ShowUserBidsDTO $data): LengthAwarePaginator;
+
+    public function delete(DeleteBidDTO $data): bool;
 }

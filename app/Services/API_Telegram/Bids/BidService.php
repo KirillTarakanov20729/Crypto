@@ -3,19 +3,19 @@
 namespace App\Services\API_Telegram\Bids;
 
 use App\Contracts\API_Telegram\Bid\BidContract;
+use App\DTO\API_Telegram\Bid\DeleteBidDTO;
 use App\DTO\API_Telegram\Bid\IndexDTO;
 use App\DTO\API_Telegram\Bid\ShowUserBidsDTO;
 use App\DTO\API_Telegram\Bid\StoreDTO;
+use App\Exceptions\API_Telegram\Bid\DeleteBidException;
 use App\Exceptions\API_Telegram\Bid\IndexBidsException;
 use App\Exceptions\API_Telegram\Bid\StoreBidException;
 use App\Exceptions\API_Telegram\User\FindUserException;
-use App\Http\Filters\BidFilter;
 use App\Models\Bid;
 use App\Models\Coin;
 use App\Models\Currency;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Facades\Log;
 
 class BidService implements BidContract
@@ -91,5 +91,23 @@ class BidService implements BidContract
             Log::error($e->getMessage());
             throw new IndexBidsException('Something went wrong', 500);
         }
+    }
+
+    public function delete(DeleteBidDTO $data): bool
+    {
+        $bid = Bid::query()->where('uuid', $data->uuid)->first();
+
+        if ($bid->user->telegram_id != $data->user_telegram_id) {
+            throw new DeleteBidException('You are not allowed to delete this bid', 403);
+        }
+
+        try {
+            $bid->delete();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            throw new DeleteBidException('Something went wrong', 500);
+        }
+
+        return true;
     }
 }
