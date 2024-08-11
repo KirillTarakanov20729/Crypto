@@ -85,6 +85,8 @@ class BidTest extends TestCase
         $response->assertStatus(200);
 
         $this->assertDatabaseHas('bids', ['uuid' => $bid->uuid, 'status' => 'asked']);
+
+        $this->assertDatabaseHas('payments', ['request_user_telegram_id' => '2323233434']);
     }
 
     public function test_show_bid_work()

@@ -8,6 +8,7 @@ use App\Models\Admin;
 use App\Models\Bid;
 use App\Models\Coin;
 use App\Models\Currency;
+use App\Models\Payment;
 use App\Models\User;
 use App\Models\Wallet;
 
@@ -44,6 +45,8 @@ trait CreateData
         $this->create_bids();
 
         $this->create_admins();
+
+        $this->create_payments();
     }
 
     public function create_coins(): void
@@ -169,12 +172,31 @@ trait CreateData
         $admin_two->save();
     }
 
+
+    public function create_payments(): void
+    {
+        $payment = new Payment;
+
+        $payment->uuid = uuid_create();
+        $payment->response_user_telegram_id = '232323';
+        $payment->request_user_telegram_id = '2323233434';
+        $payment->uuid_bid = $this->get_one_bid()->uuid;
+        $payment->save();
+    }
     public function get_one_bid(): Bid
     {
         /** @var Bid $bid */
         $bid = Bid::query()->first();
 
         return $bid;
+    }
+
+    public function get_one_payment(): Payment
+    {
+        /** @var Payment $payment */
+        $payment = Payment::query()->first();
+
+        return $payment;
     }
 
 }

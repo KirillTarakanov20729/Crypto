@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\API_Telegram\Bid;
+namespace App\Http\Requests\API_Telegram\Payment;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class AskBidRequest extends FormRequest
+class ShowPaymentRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -15,8 +15,7 @@ class AskBidRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'uuid' => ['required', 'string', 'exists:bids,uuid'],
-            'user_telegram_id' => ['required', 'string', 'exists:users,telegram_id'],
+            'uuid' => ['required', 'string', 'exists:payments,uuid'],
         ];
     }
 

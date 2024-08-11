@@ -17,10 +17,12 @@ use App\Exceptions\API_Telegram\Bid\ShowBidException;
 use App\Exceptions\API_Telegram\Bid\StoreBidException;
 use App\Exceptions\API_Telegram\User\FindUserException;
 use App\Http\Resources\API_Telegram\BidResource;
+use App\Http\Resources\API_Telegram\PaymentResource;
 use App\Http\Resources\API_Telegram\UserResource;
 use App\Models\Bid;
 use App\Models\Coin;
 use App\Models\Currency;
+use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
@@ -140,13 +142,23 @@ class BidService implements BidContract
             Log::error($e->getMessage());
             throw new AskBidException('Something went wrong', 500);
         }
-
+        /** @var User $user_ask */
         $user_ask = User::query()->where('telegram_id', $data->user_telegram_id)->first();
+        /** @var User $user_response */
         $user_response = User::query()->where('telegram_id', $bid->user->telegram_id)->first();
+
+        $payment = new Payment;
+
+        $payment->uuid = uuid_create();
+        $payment->request_user_telegram_id = $user_ask->telegram_id;
+        $payment->response_user_telegram_id = $user_response->telegram_id;
+        $payment->uuid_bid = $bid->uuid;
+        $payment->save();
 
         return new Collection([
             'ask_user' => new UserResource($user_ask),
             'response_user' => new UserResource($user_response),
+            'payment' => new PaymentResource($payment),
         ]);
     }
 
