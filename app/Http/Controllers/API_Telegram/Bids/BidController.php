@@ -85,16 +85,16 @@ class BidController extends Controller
         return response()->json(['message' => 'Successfully deleted'], 200);
     }
 
-    public function askBid(AskBidRequest $request): UserResource|JsonResponse
+    public function askBid(AskBidRequest $request): AnonymousResourceCollection|JsonResponse
     {
         $data = new AskBidDTO($request->validated());
 
         try {
-            $user = $this->service->askBid($data);
+            $users = $this->service->askBid($data);
         } catch (AskBidException $e) {
             return response()->json(['error' => $e->getMessage()],  $e->getCode());
         }
 
-        return new UserResource($user);
+        return UserResource::collection($users);
     }
 }

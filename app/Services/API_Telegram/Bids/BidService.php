@@ -20,6 +20,7 @@ use App\Models\Coin;
 use App\Models\Currency;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
@@ -116,7 +117,7 @@ class BidService implements BidContract
         return true;
     }
 
-    public function askBid(AskBidDTO $data): Model
+    public function askBid(AskBidDTO $data): Collection
     {
         /** @var Bid $bid */
         $bid = Bid::query()->where('uuid', $data->uuid)->first();
@@ -138,7 +139,12 @@ class BidService implements BidContract
             throw new AskBidException('Something went wrong', 500);
         }
 
+        $user_ask = User::query()->where('telegram_id', $data->user_telegram_id)->first();
+        $user_response = User::query()->where('telegram_id', $bid->user->telegram_id)->first();
 
-        return User::query()->where('telegram_id', $data->user_telegram_id)->first();
+        return new Collection([
+            'ask_user' => new UserResource($user_ask),
+            'response_user' => new UserResource($user_response),
+        ]);
     }
 }
