@@ -70,4 +70,20 @@ class BidTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    public function test_ask_bid_work()
+    {
+        $this->create_data();
+
+        $bid = $this->get_one_bid();
+
+        $response = $this->post('api/telegram/bids/ask', [
+            'uuid' => $bid->uuid,
+            'user_telegram_id' => '2323233434',
+        ]);
+
+        $response->assertStatus(200);
+
+        $this->assertDatabaseHas('bids', ['uuid' => $bid->uuid, 'status' => 'asked']);
+    }
 }

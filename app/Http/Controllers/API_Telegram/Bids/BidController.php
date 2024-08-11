@@ -3,19 +3,23 @@
 namespace App\Http\Controllers\API_Telegram\Bids;
 
 use App\Contracts\API_Telegram\Bid\BidContract;
+use App\DTO\API_Telegram\Bid\AskBidDTO;
 use App\DTO\API_Telegram\Bid\DeleteBidDTO;
 use App\DTO\API_Telegram\Bid\IndexDTO;
 use App\DTO\API_Telegram\Bid\ShowUserBidsDTO;
 use App\DTO\API_Telegram\Bid\StoreDTO;
+use App\Exceptions\API_Telegram\Bid\AskBidException;
 use App\Exceptions\API_Telegram\Bid\DeleteBidException;
 use App\Exceptions\API_Telegram\Bid\IndexBidsException;
 use App\Exceptions\API_Telegram\Bid\StoreBidException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API_Telegram\Bid\AskBidRequest;
 use App\Http\Requests\API_Telegram\Bid\DeleteBidRequest;
 use App\Http\Requests\API_Telegram\Bid\IndexRequest;
 use App\Http\Requests\API_Telegram\Bid\ShowUserBidsRequest;
 use App\Http\Requests\API_Telegram\Bid\StoreRequest;
 use App\Http\Resources\API_Telegram\BidResource;
+use App\Http\Resources\API_Telegram\UserResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -79,5 +83,18 @@ class BidController extends Controller
         }
 
         return response()->json(['message' => 'Successfully deleted'], 200);
+    }
+
+    public function askBid(AskBidRequest $request): UserResource|JsonResponse
+    {
+        $data = new AskBidDTO($request->validated());
+
+        try {
+            $user = $this->service->askBid($data);
+        } catch (AskBidException $e) {
+            return response()->json(['error' => $e->getMessage()],  $e->getCode());
+        }
+
+        return new UserResource($user);
     }
 }

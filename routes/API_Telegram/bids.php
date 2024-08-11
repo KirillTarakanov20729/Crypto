@@ -10,6 +10,8 @@ Route::prefix('bids')->group(function () {
 
     Route::post('show', [\App\Http\Controllers\API_Telegram\Bids\BidController::class, 'showUserBids']);
 
+    Route::post('ask', [\App\Http\Controllers\API_Telegram\Bids\BidController::class, 'askBid']);
+
     Route::delete('delete', [\App\Http\Controllers\API_Telegram\Bids\BidController::class, 'delete']);
 });
 

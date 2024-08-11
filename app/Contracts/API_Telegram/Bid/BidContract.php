@@ -2,11 +2,13 @@
 
 namespace App\Contracts\API_Telegram\Bid;
 
+use App\DTO\API_Telegram\Bid\AskBidDTO;
 use App\DTO\API_Telegram\Bid\DeleteBidDTO;
 use App\DTO\API_Telegram\Bid\IndexDTO;
 use App\DTO\API_Telegram\Bid\ShowUserBidsDTO;
 use App\DTO\API_Telegram\Bid\StoreDTO;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Model;
 
 interface BidContract
 {
@@ -17,4 +19,6 @@ interface BidContract
     public function showUserBids(ShowUserBidsDTO $data): LengthAwarePaginator;
 
     public function delete(DeleteBidDTO $data): bool;
+
+    public function askBid(AskBidDTO $data): Model;
 }
