@@ -47,7 +47,7 @@ class BidTest extends TestCase
     {
         $this->create_data();
 
-        $response = $this->post('api/telegram/bids/show', [
+        $response = $this->post('api/telegram/bids/index', [
             'page' => 1,
             'user_telegram_id' => '232323',
         ]);
@@ -85,5 +85,20 @@ class BidTest extends TestCase
         $response->assertStatus(200);
 
         $this->assertDatabaseHas('bids', ['uuid' => $bid->uuid, 'status' => 'asked']);
+    }
+
+    public function test_show_bid_work()
+    {
+        $this->create_data();
+
+        $bid = $this->get_one_bid();
+
+        $response = $this->post('api/telegram/bids/show', [
+            'uuid' => $bid->uuid,
+        ]);
+
+        $response->assertStatus(200);
+
+        $response->assertSee('price');
     }
 }
