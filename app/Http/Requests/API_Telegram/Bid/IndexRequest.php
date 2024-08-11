@@ -16,6 +16,7 @@ class IndexRequest extends FormRequest
     {
         return [
             'page' => ['required', 'integer'],
+            'user_telegram_id' => ['required', 'string', 'exists:users,telegram_id'],
         ];
     }
 

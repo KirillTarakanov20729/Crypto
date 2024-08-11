@@ -22,7 +22,10 @@ class BidService implements BidContract
     public function index(IndexDTO $data): LengthAwarePaginator
     {
         try {
-            return Bid::query()->paginate(10, ['*'], 'page', $data->page);
+            return Bid::query()->whereHas('user', function ($query) use ($data) {
+                $query->where('telegram_id', '!=',$data->user_telegram_id);
+            })
+                ->paginate(10, ['*'], 'page', $data->page);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             throw new IndexBidsException('Something went wrong', 500);

@@ -17,6 +17,7 @@ class BidTest extends TestCase
 
         $response = $this->post('api/telegram/bids/index', [
             'page' => 1,
+            'user_telegram_id' => '232323',
         ]);
 
         $response->assertStatus(200);
