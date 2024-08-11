@@ -42,4 +42,18 @@ class BidTest extends TestCase
 
         $response->assertStatus(201);
     }
+
+    public function test_user_bids_index_work()
+    {
+        $this->create_data();
+
+        $response = $this->post('api/telegram/bids/show', [
+            'page' => 1,
+            'user_telegram_id' => '232323',
+        ]);
+
+        $response->assertStatus(200);
+
+        $response->assertSee('price');
+    }
 }
