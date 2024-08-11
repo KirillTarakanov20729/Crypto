@@ -60,6 +60,7 @@ class BidService implements BidContract
 
         try {
             $bid = new Bid();
+            $bid->uuid = uuid_create();
             $bid->user_id = $user->id;
             $bid->coin_id = $coin->id;
             $bid->currency_id = $currency->id;

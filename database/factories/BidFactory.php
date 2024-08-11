@@ -18,6 +18,7 @@ class BidFactory extends Factory
     public function definition(): array
     {
         return [
+            'uuid' => $this->faker->uuid(),
             'user_id' => User::query()->inRandomOrder()->first()->id,
             'coin_id' => Coin::query()->inRandomOrder()->first()->id,
             'currency_id' => Currency::query()->inRandomOrder()->first()->id,

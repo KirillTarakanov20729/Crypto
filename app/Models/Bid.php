@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
+ * @property string $uuid
  * @property int $user_id
  * @property int $coin_id
  * @property int $currency_id
@@ -28,6 +29,7 @@ class Bid extends Model
     use Filterable;
 
     protected $fillable = [
+        'uuid',
         'user_id',
         'coin_id',
         'currency_id',

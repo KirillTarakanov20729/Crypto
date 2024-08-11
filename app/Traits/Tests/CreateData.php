@@ -130,6 +130,7 @@ trait CreateData
         $bid_one = new Bid;
 
         $bid_one->user_id = 1;
+        $bid_one->uuid = uuid_create();
         $bid_one->coin_id = 1;
         $bid_one->currency_id = 1;
         $bid_one->price = 40000;
@@ -142,6 +143,7 @@ trait CreateData
         $bid_two = new Bid;
 
         $bid_two->user_id = 2;
+        $bid_two->uuid = uuid_create();
         $bid_two->coin_id = 2;
         $bid_two->currency_id = 2;
         $bid_two->price = 4000;

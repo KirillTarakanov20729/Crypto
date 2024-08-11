@@ -11,6 +11,7 @@ return new class extends Migration
     {
         Schema::create('bids', function (Blueprint $table) {
             $table->id();
+            $table->uuid()->unique();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('coin_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('currency_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
