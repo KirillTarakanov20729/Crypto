@@ -23,7 +23,7 @@ class StoreRequest extends FormRequest
             'currency_symbol' => ['required', 'string', 'exists:currencies,symbol'],
             'type' => ['required', 'string', 'in:' . implode(',', BidTypeEnum::getValues())],
             'payment_method' => ['required', 'string', 'in:' . implode(',', BidPaymentMethodEnum::getValues())],
-            'number' => ['required', 'string'],
+            'number' => ['nullable', 'string'],
         ];
     }
 
