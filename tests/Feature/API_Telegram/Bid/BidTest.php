@@ -47,7 +47,7 @@ class BidTest extends TestCase
     {
         $this->create_data();
 
-        $response = $this->post('api/telegram/bids/index', [
+        $response = $this->post('api/telegram/bids/showUserBids', [
             'page' => 1,
             'user_telegram_id' => '232323',
         ]);
