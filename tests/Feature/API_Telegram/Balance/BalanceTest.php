@@ -20,4 +20,18 @@ class BalanceTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    public function test_update_balance_work()
+    {
+        $this->create_data();
+
+        $response = $this->put('api/telegram/balance/update', [
+            'user_telegram_id' => 232323,
+            'coin_symbol' => 'BTC',
+            'amount' => '10',
+            'type' => 'add',
+        ]);
+
+        $response->assertStatus(200);
+    }
 }
