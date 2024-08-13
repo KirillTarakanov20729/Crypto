@@ -16,7 +16,7 @@ class UpdateBalanceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_telegram_id' => ['required', 'integer', 'exists:users,telegram_id'],
+            'user_telegram_id' => ['required', 'string', 'exists:users,telegram_id'],
             'coin_symbol' => ['required', 'string', 'exists:coins,symbol'],
             'amount' => ['required', 'string'],
             'type' => ['required', 'string', 'in:add,sub'],
