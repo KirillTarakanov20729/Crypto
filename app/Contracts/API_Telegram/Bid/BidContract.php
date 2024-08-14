@@ -5,7 +5,6 @@ namespace App\Contracts\API_Telegram\Bid;
 use App\DTO\API_Telegram\Bid\DeleteBidDTO;
 use App\DTO\API_Telegram\Bid\IndexDTO;
 use App\DTO\API_Telegram\Bid\Payment\AskBidDTO;
-use App\DTO\API_Telegram\Bid\Payment\CompleteBidDTO;
 use App\DTO\API_Telegram\Bid\Payment\PayBidDTO;
 use App\DTO\API_Telegram\Bid\Payment\ResponseBidDTO;
 use App\DTO\API_Telegram\Bid\ShowBidDTO;
