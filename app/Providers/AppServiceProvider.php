@@ -48,6 +48,8 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(PaymentContract::class, PaymentService::class);
 
+        $this->app->bind(\App\Contracts\API_Client\Payment\PaymentContract::class, \App\Services\API_Client\Payment\PaymentService::class);
+
         if (class_exists(TelescopeApplicationServiceProvider::class)) {
             $this->app->register(TelescopeServiceProvider::class);
         }

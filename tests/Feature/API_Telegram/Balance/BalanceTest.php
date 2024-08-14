@@ -26,7 +26,7 @@ class BalanceTest extends TestCase
         $this->create_data();
 
         $response = $this->put('api/telegram/balance/update', [
-            'user_telegram_id' => 232323,
+            'user_telegram_id' => '232323',
             'coin_symbol' => 'BTC',
             'amount' => '10',
             'type' => 'add',
