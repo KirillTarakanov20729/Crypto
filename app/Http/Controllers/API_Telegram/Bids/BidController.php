@@ -3,27 +3,35 @@
 namespace App\Http\Controllers\API_Telegram\Bids;
 
 use App\Contracts\API_Telegram\Bid\BidContract;
-use App\DTO\API_Telegram\Bid\AskBidDTO;
 use App\DTO\API_Telegram\Bid\DeleteBidDTO;
 use App\DTO\API_Telegram\Bid\IndexDTO;
+use App\DTO\API_Telegram\Bid\Payment\AskBidDTO;
+use App\DTO\API_Telegram\Bid\Payment\CompleteBidDTO;
+use App\DTO\API_Telegram\Bid\Payment\PayBidDTO;
+use App\DTO\API_Telegram\Bid\Payment\ResponseBidDTO;
 use App\DTO\API_Telegram\Bid\ShowBidDTO;
 use App\DTO\API_Telegram\Bid\ShowUserBidsDTO;
 use App\DTO\API_Telegram\Bid\StoreDTO;
 use App\Exceptions\API_Telegram\Bid\AskBidException;
+use App\Exceptions\API_Telegram\Bid\CompleteBidException;
 use App\Exceptions\API_Telegram\Bid\DeleteBidException;
 use App\Exceptions\API_Telegram\Bid\IndexBidsException;
+use App\Exceptions\API_Telegram\Bid\PayBidException;
+use App\Exceptions\API_Telegram\Bid\ResponseBidException;
 use App\Exceptions\API_Telegram\Bid\StoreBidException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\API_Telegram\Bid\AskBidRequest;
 use App\Http\Requests\API_Telegram\Bid\DeleteBidRequest;
 use App\Http\Requests\API_Telegram\Bid\IndexRequest;
+use App\Http\Requests\API_Telegram\Bid\Payment\AskBidRequest;
+use App\Http\Requests\API_Telegram\Bid\Payment\CompleteBidRequest;
+use App\Http\Requests\API_Telegram\Bid\Payment\PayBidRequest;
+use App\Http\Requests\API_Telegram\Bid\Payment\ResponseBidRequest;
 use App\Http\Requests\API_Telegram\Bid\ShowBidRequest;
 use App\Http\Requests\API_Telegram\Bid\ShowUserBidsRequest;
 use App\Http\Requests\API_Telegram\Bid\StoreRequest;
 use App\Http\Resources\API_Telegram\BidResource;
 use App\Http\Resources\API_Telegram\UserResource;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class BidController extends Controller
@@ -99,6 +107,47 @@ class BidController extends Controller
 
         return UserResource::collection($users);
     }
+
+    public function responseBid(ResponseBidRequest $request): JsonResponse
+    {
+        $data = new ResponseBidDTO($request->validated());
+
+        try {
+            $this->service->responseBid($data);
+        } catch (ResponseBidException $e) {
+            return response()->json(['error' => $e->getMessage()],  $e->getCode());
+        }
+
+        return response()->json(['message' => 'Successfully responded'], 200);
+    }
+
+    public function payBid(PayBidRequest $request): JsonResponse
+    {
+        $data = new PayBidDTO($request->validated());
+
+        try {
+            $this->service->payBid($data);
+        } catch (PayBidException $e) {
+            return response()->json(['error' => $e->getMessage()],  $e->getCode());
+        }
+
+        return response()->json(['message' => 'Successfully paid'], 200);
+    }
+
+
+    public function completeBid(CompleteBidRequest $request): JsonResponse
+    {
+        $data = new CompleteBidDTO($request->validated());
+
+        try {
+            $this->service->completeBid($data);
+        } catch (CompleteBidException $e) {
+            return response()->json(['error' => $e->getMessage()],  $e->getCode());
+        }
+
+        return response()->json(['message' => 'Successfully completed'], 200);
+    }
+
 
     public function showBid(ShowBidRequest $request): BidResource|JsonResponse
     {

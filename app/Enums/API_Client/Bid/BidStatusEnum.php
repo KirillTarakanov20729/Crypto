@@ -7,13 +7,17 @@ use BenSampo\Enum\Enum;
 /**
  * @method static static CREATED()
  * @method static static ASKED()
- * @method static static ANSWERED()
- * @method static static CLOSED()
+ * @method static static RESPONSE()
+ * @method static static PAID()
+ * @method static static COMPLETED()
  */
 final class BidStatusEnum extends Enum
 {
     const CREATED = 'created';
     const ASKED = 'asked';
-    const ANSWERED = 'answered';
-    const CLOSED = 'closed';
+
+    const RESPONSE = 'response';
+
+    const PAID = 'paid';
+    const COMPLETED = 'completed';
 }

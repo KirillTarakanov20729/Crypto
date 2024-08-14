@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTO\API_Telegram\Bid;
+namespace App\DTO\API_Telegram\Bid\Payment;
 
 use Spatie\DataTransferObject\DataTransferObject;
 
