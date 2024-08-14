@@ -225,38 +225,6 @@ class BidService implements BidContract
         return true;
     }
 
-    public function completeBid(CompleteBidDTO $data): bool
-    {
-        /** @var Payment $payment */
-        $payment = Payment::query()->where('uuid', $data->uuid)->first();
-
-        /** @var Bid $bid */
-        $bid = Bid::query()->where('uuid', $payment->uuid_bid)->first();
-
-        if ($bid->status != BidStatusEnum::PAID) {
-            throw new CompleteBidException('Bid dont allowed to be completed', 404);
-        }
-
-        if ($bid->type == BidTypeEnum::BUY && $payment->request_user_telegram_id != $data->user_telegram_id) {
-            throw new CompleteBidException('You are not allowed to complete this bid', 403);
-        }
-
-        if ($bid->type == BidTypeEnum::SELL && $payment->response_user_telegram_id != $data->user_telegram_id) {
-            throw new CompleteBidException('You are not allowed to complete this bid', 403);
-        }
-
-        $bid->status = BidStatusEnum::COMPLETED;
-
-        try {
-            $bid->save();
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            throw new CompleteBidException('Something went wrong', 500);
-        }
-
-        return true;
-    }
-
     public function showBid(ShowBidDTO $data): Bid
     {
         try {

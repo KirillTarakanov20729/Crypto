@@ -135,20 +135,6 @@ class BidController extends Controller
     }
 
 
-    public function completeBid(CompleteBidRequest $request): JsonResponse
-    {
-        $data = new CompleteBidDTO($request->validated());
-
-        try {
-            $this->service->completeBid($data);
-        } catch (CompleteBidException $e) {
-            return response()->json(['error' => $e->getMessage()],  $e->getCode());
-        }
-
-        return response()->json(['message' => 'Successfully completed'], 200);
-    }
-
-
     public function showBid(ShowBidRequest $request): BidResource|JsonResponse
     {
         $data = new ShowBidDTO($request->validated());

@@ -146,45 +146,6 @@ class BidTest extends TestCase
         $this->assertDatabaseHas('payments', ['request_user_telegram_id' => '2323233434']);
     }
 
-    public function test_complete_bid_work()
-    {
-        $this->create_data();
-
-        $bid = $this->get_one_bid();
-
-        $payment = $this->get_one_payment();
-
-        $response = $this->post('api/telegram/bids/ask', [
-            'uuid' => $bid->uuid,
-            'user_telegram_id' => '2323233434',
-        ]);
-
-        $response->assertStatus(200);
-
-        $response = $this->post('api/telegram/bids/response', [
-            'uuid' => $bid->uuid,
-            'user_telegram_id' => '232323',
-        ]);
-
-        $response = $this->post('api/telegram/bids/pay', [
-            'uuid' => $payment->uuid,
-            'user_telegram_id' => '232323',
-        ]);
-
-        $response->assertStatus(200);
-
-        $response = $this->post('api/telegram/bids/complete', [
-            'uuid' => $payment->uuid,
-            'user_telegram_id' => '2323233434',
-        ]);
-
-        $response->assertStatus(200);
-
-        $this->assertDatabaseHas('bids', ['uuid' => $bid->uuid, 'status' => 'completed']);
-
-        $this->assertDatabaseHas('payments', ['request_user_telegram_id' => '2323233434']);
-    }
-
     public function test_show_bid_work()
     {
         $this->create_data();

@@ -31,7 +31,5 @@ interface BidContract
 
     public function payBid(PayBidDTO $data): bool;
 
-    public function completeBid(CompleteBidDTO $data): bool;
-
     public function showBid(ShowBidDTO $data): Bid;
 }

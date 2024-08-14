@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /** @property string $uuid
- * @property int $request_user_telegram_id
- * @property int $response_user_telegram_id
+ * @property string $request_user_telegram_id
+ * @property string $response_user_telegram_id
  * @property string $uuid_bid
  */
 class Payment extends Model

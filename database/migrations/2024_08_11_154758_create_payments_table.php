@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->uuid();
-            $table->integer('request_user_telegram_id');
-            $table->integer('response_user_telegram_id');
+            $table->string('request_user_telegram_id');
+            $table->string('response_user_telegram_id');
             $table->string('uuid_bid');
             $table->timestamps();
         });

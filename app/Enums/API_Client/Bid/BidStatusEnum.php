@@ -9,7 +9,6 @@ use BenSampo\Enum\Enum;
  * @method static static ASKED()
  * @method static static RESPONSE()
  * @method static static PAID()
- * @method static static COMPLETED()
  */
 final class BidStatusEnum extends Enum
 {
@@ -19,5 +18,4 @@ final class BidStatusEnum extends Enum
     const RESPONSE = 'response';
 
     const PAID = 'paid';
-    const COMPLETED = 'completed';
 }
