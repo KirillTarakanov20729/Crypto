@@ -8,6 +8,7 @@ use App\Exceptions\API_Client\Payment\DeletePaymentException;
 use App\Exceptions\API_Client\Payment\FindPaymentException;
 use App\Exceptions\API_Client\Payment\IndexPaymentException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API_Client\Payment\IndexRequest;
 use App\Http\Resources\API_Client\PaymentResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class PaymentController extends Controller
         $this->service = $service;
     }
 
-    public function index(Request $request): JsonResponse|AnonymousResourceCollection
+    public function index(IndexRequest $request): JsonResponse|AnonymousResourceCollection
     {
         $data = new IndexDTO($request->all());
 
