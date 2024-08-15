@@ -34,4 +34,15 @@ class BalanceTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    public function test_secret_work()
+    {
+        $this->create_data();
+
+        $response = $this->put('api/telegram/balance/secret', [
+            'user_telegram_id' => '232323',
+        ]);
+
+        $response->assertStatus(200);
+    }
 }

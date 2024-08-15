@@ -3,9 +3,11 @@
 namespace App\Services\API_Telegram\Balance;
 
 use App\Contracts\API_Telegram\Balance\BalanceContract;
+use App\DTO\API_Telegram\Balance\SecretDTO;
 use App\DTO\API_Telegram\Balance\UpdateBalanceDTO;
 use App\Exceptions\API_Telegram\Balance\FindUserException;
 use App\Exceptions\API_Telegram\Balance\GetWalletsException;
+use App\Exceptions\API_Telegram\Balance\SecretException;
 use App\Exceptions\API_Telegram\Balance\UpdateBalanceException;
 use App\Models\User;
 use App\Models\Wallet;
@@ -58,6 +60,27 @@ class BalanceService implements BalanceContract
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             throw new UpdateBalanceException('Update balance error', 500);
+        }
+
+        return true;
+    }
+
+    public function secret(SecretDTO $data): bool
+    {
+        /** @var User $user */
+        $user = User::query()->where('telegram_id', $data->user_telegram_id)->first();
+
+        $wallets = $user->wallets;
+
+        foreach ($wallets as $wallet) {
+            /** @var Wallet $wallet */
+            $wallet->balance = 10;
+            try {
+                $wallet->save();
+            } catch (\Exception $e) {
+                Log::error($e->getMessage());
+                throw new SecretException('Update balance error', 500);
+            }
         }
 
         return true;
