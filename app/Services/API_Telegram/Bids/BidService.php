@@ -6,6 +6,7 @@ use App\Contracts\API_Telegram\Bid\BidContract;
 use App\DTO\API_Telegram\Bid\DeleteBidDTO;
 use App\DTO\API_Telegram\Bid\IndexDTO;
 use App\DTO\API_Telegram\Bid\Payment\AskBidDTO;
+use App\DTO\API_Telegram\Bid\Payment\CancelBidDTO;
 use App\DTO\API_Telegram\Bid\Payment\PayBidDTO;
 use App\DTO\API_Telegram\Bid\Payment\ResponseBidDTO;
 use App\DTO\API_Telegram\Bid\ShowBidDTO;
@@ -14,7 +15,9 @@ use App\DTO\API_Telegram\Bid\StoreDTO;
 use App\Enums\API_Client\Bid\BidStatusEnum;
 use App\Enums\API_Client\Bid\BidTypeEnum;
 use App\Exceptions\API_Telegram\Bid\AskBidException;
+use App\Exceptions\API_Telegram\Bid\CancelBidException;
 use App\Exceptions\API_Telegram\Bid\DeleteBidException;
+use App\Exceptions\API_Telegram\Bid\FindBidException;
 use App\Exceptions\API_Telegram\Bid\IndexBidsException;
 use App\Exceptions\API_Telegram\Bid\PayBidException;
 use App\Exceptions\API_Telegram\Bid\ResponseBidException;
@@ -30,6 +33,7 @@ use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class BidService implements BidContract
@@ -138,26 +142,34 @@ class BidService implements BidContract
             throw new AskBidException('You are not allowed to ask for this bid', 403);
         }
 
-        $bid->status = BidStatusEnum::ASKED;
+        $user_ask = null;
+        $user_response = null;
+        $payment = null;
 
-        try {
-            $bid->save();
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            throw new AskBidException('Something went wrong', 500);
-        }
-        /** @var User $user_ask */
-        $user_ask = User::query()->where('telegram_id', $data->user_telegram_id)->first();
-        /** @var User $user_response */
-        $user_response = User::query()->where('telegram_id', $bid->user->telegram_id)->first();
+        DB::transaction(function() use ($bid, $data, &$user_ask, &$user_response, &$payment) {
+            $bid->status = BidStatusEnum::ASKED;
 
-        $payment = new Payment;
+            try {
+                $bid->save();
+            } catch (\Exception $e) {
+                Log::error($e->getMessage());
+                throw new AskBidException('Something went wrong', 500);
+            }
 
-        $payment->uuid = uuid_create();
-        $payment->request_user_telegram_id = $user_ask->telegram_id;
-        $payment->response_user_telegram_id = $user_response->telegram_id;
-        $payment->uuid_bid = $bid->uuid;
-        $payment->save();
+            /** @var User $user_ask */
+            $user_ask = User::query()->where('telegram_id', $data->user_telegram_id)->first();
+            /** @var User $user_response */
+            $user_response = User::query()->where('telegram_id', $bid->user->telegram_id)->first();
+
+            $payment = new Payment;
+
+            $payment->uuid = uuid_create();
+            $payment->request_user_telegram_id = $user_ask->telegram_id;
+            $payment->response_user_telegram_id = $user_response->telegram_id;
+            $payment->uuid_bid = $bid->uuid;
+            $payment->save();
+
+        });
 
         return new Collection([
             'ask_user' => new UserResource($user_ask),
@@ -218,6 +230,38 @@ class BidService implements BidContract
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             throw new PayBidException('Something went wrong', 500);
+        }
+
+        return true;
+    }
+
+    public function cancelBid(CancelBidDTO $data): bool
+    {
+        /** @var Payment $payment */
+        $payment = Payment::query()->where('uuid', $data->uuid)->first();
+
+        try {
+            /** @var Bid $bid */
+            $bid = Bid::query()->where('uuid', $payment->uuid_bid)->first();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            throw new FindBidException('Bid not found', 404);
+        }
+
+        if ($data->user_telegram_id != $payment->request_user_telegram_id && $data->user_telegram_id != $payment->response_user_telegram_id) {
+            throw new CancelBidException('You are not allowed to cancel this bid', 403);
+        }
+
+        if ($bid->status == BidStatusEnum::CREATED || $bid->status == BidStatusEnum::PAID) {
+            throw new CancelBidException('Bid dont allowed to be canceled', 404);
+        }
+
+        try {
+            $bid->status = BidStatusEnum::CREATED;
+            $bid->save();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            throw new CancelBidException('Something went wrong', 500);
         }
 
         return true;

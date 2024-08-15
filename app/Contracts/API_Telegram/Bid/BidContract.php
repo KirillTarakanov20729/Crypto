@@ -5,6 +5,7 @@ namespace App\Contracts\API_Telegram\Bid;
 use App\DTO\API_Telegram\Bid\DeleteBidDTO;
 use App\DTO\API_Telegram\Bid\IndexDTO;
 use App\DTO\API_Telegram\Bid\Payment\AskBidDTO;
+use App\DTO\API_Telegram\Bid\Payment\CancelBidDTO;
 use App\DTO\API_Telegram\Bid\Payment\PayBidDTO;
 use App\DTO\API_Telegram\Bid\Payment\ResponseBidDTO;
 use App\DTO\API_Telegram\Bid\ShowBidDTO;
@@ -29,6 +30,8 @@ interface BidContract
     public function responseBid(ResponseBidDTO $data): bool;
 
     public function payBid(PayBidDTO $data): bool;
+
+    public function cancelBid(CancelBidDTO $data): bool;
 
     public function showBid(ShowBidDTO $data): Bid;
 }

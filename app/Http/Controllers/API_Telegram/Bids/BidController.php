@@ -6,13 +6,16 @@ use App\Contracts\API_Telegram\Bid\BidContract;
 use App\DTO\API_Telegram\Bid\DeleteBidDTO;
 use App\DTO\API_Telegram\Bid\IndexDTO;
 use App\DTO\API_Telegram\Bid\Payment\AskBidDTO;
+use App\DTO\API_Telegram\Bid\Payment\CancelBidDTO;
 use App\DTO\API_Telegram\Bid\Payment\PayBidDTO;
 use App\DTO\API_Telegram\Bid\Payment\ResponseBidDTO;
 use App\DTO\API_Telegram\Bid\ShowBidDTO;
 use App\DTO\API_Telegram\Bid\ShowUserBidsDTO;
 use App\DTO\API_Telegram\Bid\StoreDTO;
 use App\Exceptions\API_Telegram\Bid\AskBidException;
+use App\Exceptions\API_Telegram\Bid\CancelBidException;
 use App\Exceptions\API_Telegram\Bid\DeleteBidException;
+use App\Exceptions\API_Telegram\Bid\FindBidException;
 use App\Exceptions\API_Telegram\Bid\IndexBidsException;
 use App\Exceptions\API_Telegram\Bid\PayBidException;
 use App\Exceptions\API_Telegram\Bid\ResponseBidException;
@@ -21,6 +24,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\API_Telegram\Bid\DeleteBidRequest;
 use App\Http\Requests\API_Telegram\Bid\IndexRequest;
 use App\Http\Requests\API_Telegram\Bid\Payment\AskBidRequest;
+use App\Http\Requests\API_Telegram\Bid\Payment\CancelBidRequest;
 use App\Http\Requests\API_Telegram\Bid\Payment\CompleteBidRequest;
 use App\Http\Requests\API_Telegram\Bid\Payment\PayBidRequest;
 use App\Http\Requests\API_Telegram\Bid\Payment\ResponseBidRequest;
@@ -130,6 +134,19 @@ class BidController extends Controller
         }
 
         return response()->json(['message' => 'Successfully paid'], 200);
+    }
+
+    public function cancelBid(CancelBidRequest $request): JsonResponse
+    {
+        $data = new CancelBidDTO($request->validated());
+
+        try {
+            $this->service->cancelBid($data);
+        } catch (CancelBidException|FindBidException $e) {
+            return response()->json(['error' => $e->getMessage()],  $e->getCode());
+        }
+
+        return response()->json(['message' => 'Successfully canceled'], 200);
     }
 
 

@@ -16,6 +16,8 @@ Route::prefix('bids')->group(function () {
 
     Route::post('pay', [\App\Http\Controllers\API_Telegram\Bids\BidController::class, 'payBid']);
 
+    Route::post('cancel', [\App\Http\Controllers\API_Telegram\Bids\BidController::class, 'cancelBid']);
+
     Route::post('show', [\App\Http\Controllers\API_Telegram\Bids\BidController::class, 'showBid']);
 
     Route::delete('delete', [\App\Http\Controllers\API_Telegram\Bids\BidController::class, 'delete']);

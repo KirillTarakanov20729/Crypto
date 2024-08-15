@@ -111,6 +111,14 @@ trait CreateData
         $wallet_for_user_two->uuid = uuid_create();
         $wallet_for_user_two->coin_id = 2;
         $wallet_for_user_two->save();
+
+        $user_three = new User;
+
+        $user_three->name = 'User Three';
+        $user_three->email = 'user3@mail.ru';
+        $user_three->password = bcrypt('user1234');
+        $user_three->telegram_id = '23232334342342';
+        $user_three->save();
     }
 
     public function create_currencies(): void
@@ -187,6 +195,14 @@ trait CreateData
     {
         /** @var Bid $bid */
         $bid = Bid::query()->first();
+
+        return $bid;
+    }
+
+    public function get_second_bid(): Bid
+    {
+        /** @var Bid $bid */
+        $bid = Bid::query()->find(2);
 
         return $bid;
     }
