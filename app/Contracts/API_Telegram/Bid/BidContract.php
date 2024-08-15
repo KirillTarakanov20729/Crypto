@@ -31,7 +31,7 @@ interface BidContract
 
     public function payBid(PayBidDTO $data): bool;
 
-    public function cancelBid(CancelBidDTO $data): bool;
+    public function cancelBid(CancelBidDTO $data): Collection;
 
     public function showBid(ShowBidDTO $data): Bid;
 }

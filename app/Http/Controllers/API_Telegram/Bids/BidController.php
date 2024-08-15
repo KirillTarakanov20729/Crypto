@@ -136,17 +136,17 @@ class BidController extends Controller
         return response()->json(['message' => 'Successfully paid'], 200);
     }
 
-    public function cancelBid(CancelBidRequest $request): JsonResponse
+    public function cancelBid(CancelBidRequest $request): JsonResponse|AnonymousResourceCollection
     {
         $data = new CancelBidDTO($request->validated());
 
         try {
-            $this->service->cancelBid($data);
+            $users = $this->service->cancelBid($data);
         } catch (CancelBidException|FindBidException $e) {
             return response()->json(['error' => $e->getMessage()],  $e->getCode());
         }
 
-        return response()->json(['message' => 'Successfully canceled'], 200);
+        return UserResource::collection($users);
     }
 
 

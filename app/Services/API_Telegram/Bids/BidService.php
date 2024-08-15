@@ -235,7 +235,7 @@ class BidService implements BidContract
         return true;
     }
 
-    public function cancelBid(CancelBidDTO $data): bool
+    public function cancelBid(CancelBidDTO $data): Collection
     {
         /** @var Payment $payment */
         $payment = Payment::query()->where('uuid', $data->uuid)->first();
@@ -264,7 +264,10 @@ class BidService implements BidContract
             throw new CancelBidException('Something went wrong', 500);
         }
 
-        return true;
+        return new Collection([
+            'request_user' => new UserResource(User::query()->where('telegram_id', $payment->request_user_telegram_id)->first()),
+            'response_user' => new UserResource(User::query()->where('telegram_id', $payment->response_user_telegram_id)->first()),
+        ]);
     }
 
     public function showBid(ShowBidDTO $data): Bid
