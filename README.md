@@ -20,7 +20,7 @@ API на Laravel для бота и клиентской части.
 
  * Слой DTO c помощью библиотеки от [Spatie](https://github.com/spatie/data-transfer-object)
  * Работа с Enum с помощью библиотеки от [BenSampo](https://github.com/BenSampo/laravel-enum)
- * Jwt авторизация с помощью библиотеки о [Tymon](https://jwt-auth.readthedocs.io/en/develop/laravel-installation/)
+ * Jwt авторизация с помощью библиотеки от [Tymon](https://jwt-auth.readthedocs.io/en/develop/laravel-installation/)
  * Шаблон фильтра
  * Сервисный слой
  * Слой контрактов
@@ -28,7 +28,7 @@ API на Laravel для бота и клиентской части.
  * Собственная настрйка контейнеризации приложения и нужных сервисов
  * CRUD сущностей
  * Получение курса валют с помощью API Binance
- * Для тестирования написаны фабрики и сидеры. 
+ * Для тестирования написаны фабрики и сидеры
 
 
 ## Usage/Examples
